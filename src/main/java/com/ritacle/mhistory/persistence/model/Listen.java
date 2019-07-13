@@ -11,14 +11,16 @@ public class Listen {
     private long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "USER_ID_FK"))
     private User user;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "song_id", foreignKey = @ForeignKey(name = "SONG_ID_FK"))
     private Song song;
 
-    @Basic
-    @Temporal(TemporalType.DATE)
-    private java.util.Date date;
+    @Column(name = "listen_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date listenDate;
 
     public Listen() {
     }
@@ -47,11 +49,11 @@ public class Listen {
         this.song = song;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getListenDate() {
+        return listenDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setListenDate(Date listenDate) {
+        this.listenDate = listenDate;
     }
 }

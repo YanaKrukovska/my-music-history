@@ -3,6 +3,10 @@ package com.ritacle.mhistory.persistence.model;
 import javax.persistence.*;
 
 @Entity
+@Table(
+        uniqueConstraints = @UniqueConstraint( name = "song_constraint", columnNames = {"title", "artist", "album"})
+)
+
 public class Song {
 
     @Id

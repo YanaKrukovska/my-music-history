@@ -22,14 +22,15 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1)
     private String gender;
 
     @Basic
     @Temporal(TemporalType.DATE)
-    private java.util.Date utilDate;
+    private Date birthDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "COUNTRY_ID_FK"))
     private Country country;
 
     public User() {
@@ -75,12 +76,12 @@ public class User {
         this.gender = gender;
     }
 
-    public Date getUtilDate() {
-        return utilDate;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setUtilDate(Date utilDate) {
-        this.utilDate = utilDate;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public Country getCountry() {
