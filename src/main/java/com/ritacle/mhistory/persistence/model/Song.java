@@ -65,6 +65,6 @@ public class Song {
 
     @Override
     public String toString() {
-        return "Song: id = " + id + ", title = " + title + ", artist = " + artist + ", album = " + album ;
+        return String.format("Song: id = %s, title = %s, artist = %s, album = %s", id, title, artist, album ) ;
     }
 }
