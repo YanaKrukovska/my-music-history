@@ -10,8 +10,8 @@ import javax.persistence.*;
 public class Song {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -25,11 +25,17 @@ public class Song {
     public Song() {
     }
 
-    public long getId() {
+    public Song(String title, String artist, String album) {
+        this.title = title;
+        this.artist = artist;
+        this.album = album;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,5 +61,10 @@ public class Song {
 
     public void setAlbum(String album) {
         this.album = album;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Song: id = %s, title = %s, artist = %s, album = %s", id, title, artist, album ) ;
     }
 }

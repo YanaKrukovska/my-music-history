@@ -1,9 +1,12 @@
 package com.ritacle.mhistory.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Listen {
 
     @Id
@@ -55,5 +58,10 @@ public class Listen {
 
     public void setListenDate(Date listenDate) {
         this.listenDate = listenDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Listen: id = " + id + ", user = " + user + ", song = " + song + "listen date = " + listenDate;
     }
 }
