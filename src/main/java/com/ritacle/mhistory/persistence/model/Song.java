@@ -62,4 +62,9 @@ public class Song {
     public void setAlbum(String album) {
         this.album = album;
     }
+
+    @Override
+    public String toString() {
+        return "Song: id = " + id + ", title = " + title + ", artist = " + artist + ", album = " + album ;
+    }
 }

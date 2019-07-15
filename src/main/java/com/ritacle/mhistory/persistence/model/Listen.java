@@ -56,4 +56,9 @@ public class Listen {
     public void setListenDate(Date listenDate) {
         this.listenDate = listenDate;
     }
+
+    @Override
+    public String toString() {
+        return "Listen: id = " + id + ", user = " + user + ", song = " + song + "listen date = " + listenDate;
+    }
 }
