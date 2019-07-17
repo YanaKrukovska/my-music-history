@@ -4,7 +4,9 @@ import com.ritacle.mhistory.persistence.model.Song;
 
 public interface SongService {
 
-    boolean checkIfExist(Song song);
+
     Song save(Song song);
+
+    Song getSong(Song song);
 
 }
