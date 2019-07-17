@@ -4,19 +4,23 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table(name = "Listener"
+       ,uniqueConstraints = {@UniqueConstraint( name = "mail_constraint", columnNames = {"mail"}),
+        @UniqueConstraint( name = "username_constraint", columnNames = {"username"})}
+)
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String userName;
 
     @Column(nullable = false)
     private String nickName;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String mail;
 
     @Column(nullable = false)
