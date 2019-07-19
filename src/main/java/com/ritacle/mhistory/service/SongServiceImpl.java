@@ -8,8 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-public class SongServiceImpl implements SongService
-{
+public class SongServiceImpl implements SongService {
     @Autowired
     private SongRepository repository;
 
@@ -21,9 +20,9 @@ public class SongServiceImpl implements SongService
 
     @Override
     public Song getSong(Song song) {
-        Objects.requireNonNull(song.getTitle(),"Title is required");
-        Objects.requireNonNull(song.getArtist(),"Artist is required");
+        Objects.requireNonNull(song.getTitle(), "Title is required");
+        Objects.requireNonNull(song.getArtist(), "Artist is required");
         Objects.requireNonNull(song.getAlbum(), "Album is required");
-       return repository.findSongByTitleIgnoreCaseAndArtistIgnoreCaseAndAlbumIgnoreCase(song.getTitle(), song.getArtist(), song.getAlbum());
+        return repository.findSongByTitleIgnoreCaseAndArtistAndAlbum(song.getTitle(), song.getArtist(), song.getAlbum());
     }
 }

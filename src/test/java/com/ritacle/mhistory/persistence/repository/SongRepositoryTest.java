@@ -1,5 +1,7 @@
 package com.ritacle.mhistory.persistence.repository;
 
+import com.ritacle.mhistory.persistence.model.Album;
+import com.ritacle.mhistory.persistence.model.Artist;
 import com.ritacle.mhistory.persistence.model.Song;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,19 +22,23 @@ public class SongRepositoryTest {
 
     @Test
     public void findSuccessfully() {
-        Assert.assertNotNull(repository.findSongByTitleIgnoreCaseAndArtistIgnoreCaseAndAlbumIgnoreCase("So Am I", "Ava Max", "So Am I"));
+        Artist artist = new Artist(1L,"");
+        Album album = new Album(3L, "");
+        Assert.assertNotNull(repository.findSongByTitleIgnoreCaseAndArtistAndAlbum("So Am I", artist, album));
 
     }
 
     @Test
     public void songNotFound() {
-        Assert.assertNull(repository.findSongByTitleIgnoreCaseAndArtistIgnoreCaseAndAlbumIgnoreCase("So", "Ava Max", "So Am I"));
+        Artist artist = new Artist(1L,"");
+        Album album = new Album(3L, "");
+        Assert.assertNull(repository.findSongByTitleIgnoreCaseAndArtistAndAlbum("So", artist, album));
 
     }
 
     @Test
     public void saveNewSong() {
-        Song song = new Song("Pompeii", "Bastille", "Bad Blood");
+        Song song = new Song("Pompeii", new Artist("Bastille"), new Album("Bad Blood"));
         Song result = repository.save(song);
         Assert.assertEquals(Long.valueOf(4), result.getId());
     }

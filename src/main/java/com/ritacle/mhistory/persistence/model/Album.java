@@ -1,13 +1,14 @@
 package com.ritacle.mhistory.persistence.model;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Album {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String title;
@@ -18,17 +19,25 @@ public class Album {
 
     @Basic
     @Temporal(TemporalType.DATE)
-    private String releaseDate;
+    private Date releaseDate;
+
+    public Album() {
+    }
 
     public Album(String title) {
         this.title = title;
     }
 
-    public long getId() {
+    public Album(Long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -48,16 +57,16 @@ public class Album {
         this.genre = genre;
     }
 
-    public String getReleaseDate() {
+    public Date getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(String releaseDate) {
+    public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
     }
 
     @Override
     public String toString() {
-        return String.format("Album: id = %s, title = %s, genre = %s, release date = %s ", id, title, genre, releaseDate ) ;
+        return String.format("Album: id = %s, title = %s, genre = %s, release date = %s ", id, title, genre, releaseDate);
     }
 }

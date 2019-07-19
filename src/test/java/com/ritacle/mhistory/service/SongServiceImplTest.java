@@ -1,5 +1,7 @@
 package com.ritacle.mhistory.service;
 
+import com.ritacle.mhistory.persistence.model.Album;
+import com.ritacle.mhistory.persistence.model.Artist;
 import com.ritacle.mhistory.persistence.model.Song;
 import com.ritacle.mhistory.persistence.repository.SongRepository;
 import org.junit.Assert;
@@ -22,7 +24,7 @@ public class SongServiceImplTest {
 
     @Test
     public void save() {
-        Song song = new Song("My Way", "Ava Max", "My Way");
+        Song song = new Song("My Way", new Artist("Ava Max"), new Album("My Way"));
         Song savedSong = service.save(song);
         Assert.assertNotNull(savedSong.getId());
     }

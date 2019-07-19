@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(
-        uniqueConstraints = @UniqueConstraint( name = "song_constraint", columnNames = {"title", "artist", "album"})
+        uniqueConstraints = @UniqueConstraint(name = "song_constraint", columnNames = {"title", "artist_id", "album_id"})
 )
 
 public class Song {
@@ -27,9 +27,10 @@ public class Song {
     public Song() {
     }
 
-    public Song(String title) {
+    public Song(String title, Artist artist, Album album) {
         this.title = title;
-
+        this.artist = artist;
+        this.album = album;
     }
 
     public Long getId() {
@@ -44,6 +45,23 @@ public class Song {
         return title;
     }
 
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -51,6 +69,6 @@ public class Song {
 
     @Override
     public String toString() {
-        return String.format("Song: id = %s, title = %s", id, title ) ;
+        return String.format("Song: id = %s, title = %s", id, title);
     }
 }

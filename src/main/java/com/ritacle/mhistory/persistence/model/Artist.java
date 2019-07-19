@@ -7,20 +7,28 @@ public class Artist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(nullable = false)
     private String name;
+
+    public Artist(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Artist() {
+    }
 
     public Artist(String name) {
         this.name = name;
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -34,6 +42,6 @@ public class Artist {
 
     @Override
     public String toString() {
-        return String.format("Artist: id = %s, name = %s", id, name ) ;
+        return String.format("Artist: id = %s, name = %s", id, name);
     }
 }
