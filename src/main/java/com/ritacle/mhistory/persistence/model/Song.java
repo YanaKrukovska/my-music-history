@@ -16,19 +16,20 @@ public class Song {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String artist;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "artist_id", foreignKey = @ForeignKey(name = "ARTIST_ID_FK"))
+    private Artist artist;
 
-    @Column(nullable = false)
-    private String album;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "album_id", foreignKey = @ForeignKey(name = "ALBUM_ID_FK"))
+    private Album album;
 
     public Song() {
     }
 
-    public Song(String title, String artist, String album) {
+    public Song(String title) {
         this.title = title;
-        this.artist = artist;
-        this.album = album;
+
     }
 
     public Long getId() {
@@ -47,24 +48,9 @@ public class Song {
         this.title = title;
     }
 
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
 
     @Override
     public String toString() {
-        return String.format("Song: id = %s, title = %s, artist = %s, album = %s", id, title, artist, album ) ;
+        return String.format("Song: id = %s, title = %s", id, title ) ;
     }
 }
