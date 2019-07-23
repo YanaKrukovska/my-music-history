@@ -23,22 +23,24 @@ public class SongRepositoryTest {
     @Test
     public void findSuccessfully() {
         Artist artist = new Artist(1L,"");
-        Album album = new Album(3L, "");
-        Assert.assertNotNull(repository.findSongByTitleIgnoreCaseAndArtistAndAlbum("So Am I", artist, album));
+        Album album = new Album();
+        album.setId(3L);
+        Assert.assertNotNull(repository.findSongByTitleIgnoreCaseAndAlbum("So Am I",  album));
 
     }
 
     @Test
     public void songNotFound() {
         Artist artist = new Artist(1L,"");
-        Album album = new Album(3L, "");
-        Assert.assertNull(repository.findSongByTitleIgnoreCaseAndArtistAndAlbum("So", artist, album));
+        Album album = new Album();
+        album.setId(3L);
+        Assert.assertNull(repository.findSongByTitleIgnoreCaseAndAlbum("So",  album));
 
     }
 
     @Test
     public void saveNewSong() {
-        Song song = new Song("Pompeii", new Artist("Bastille"), new Album("Bad Blood"));
+        Song song = new Song("Pompeii",  new Album("Bad Blood", new Artist("Bastille")));
         Song result = repository.save(song);
         Assert.assertEquals(Long.valueOf(4), result.getId());
     }

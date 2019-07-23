@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(
-        uniqueConstraints = @UniqueConstraint(name = "song_constraint", columnNames = {"title", "artist_id", "album_id"})
+        uniqueConstraints = @UniqueConstraint(name = "song_constraint", columnNames = {"title", "album_id"})
 )
 
 public class Song {
@@ -16,9 +16,6 @@ public class Song {
     @Column(nullable = false)
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artist_id", foreignKey = @ForeignKey(name = "ARTIST_ID_FK"))
-    private Artist artist;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "album_id", foreignKey = @ForeignKey(name = "ALBUM_ID_FK"))
@@ -27,9 +24,8 @@ public class Song {
     public Song() {
     }
 
-    public Song(String title, Artist artist, Album album) {
+    public Song(String title, Album album) {
         this.title = title;
-        this.artist = artist;
         this.album = album;
     }
 
@@ -46,13 +42,6 @@ public class Song {
     }
 
 
-    public Artist getArtist() {
-        return artist;
-    }
-
-    public void setArtist(Artist artist) {
-        this.artist = artist;
-    }
 
     public Album getAlbum() {
         return album;

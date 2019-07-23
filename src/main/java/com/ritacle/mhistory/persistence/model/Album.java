@@ -13,8 +13,11 @@ public class Album {
     @Column(nullable = false)
     private String title;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "artist_id", foreignKey = @ForeignKey(name = "ARTIST_ID_FK"))
+    private Artist artist;
 
-    @Column(nullable = false)
+    @Column
     private String genre;
 
     @Basic
@@ -24,14 +27,12 @@ public class Album {
     public Album() {
     }
 
-    public Album(String title) {
+    public Album(String title, Artist artist) {
         this.title = title;
+        this.artist = artist;
     }
 
-    public Album(Long id, String title) {
-        this.id = id;
-        this.title = title;
-    }
+
 
     public Long getId() {
         return id;
@@ -63,6 +64,14 @@ public class Album {
 
     public void setReleaseDate(Date releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 
     @Override

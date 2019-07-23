@@ -35,7 +35,7 @@ public class ListenServiceImplTest {
     @Test
     public void addListenExistingSong() {
         Listen listen = new Listen();
-        Song song = new Song("Sweet But Psycho", new Artist("Ava Max"), new Album("Sweet But Psycho"));
+        Song song = new Song("Sweet But Psycho",  new Album("Sweet But Psycho",new Artist("Ava Max")));
         listen.setSong(song);
         listen.setUser(userRepository.getOne(1L));
         listen.setListenDate(new Date());
@@ -47,7 +47,7 @@ public class ListenServiceImplTest {
     @Test
     public void addListenNotExistingSong() {
         Listen listen = new Listen();
-        Song song = new Song("Skibidi", new Artist("Little Big"), new Album("Antipositive, Pt. 2"));
+        Song song = new Song("Skibidi",  new Album( "Antipositive, Pt. 2", new Artist( "Little Big")));
         listen.setSong(song);
         listen.setUser(userRepository.getOne(2L));
         listen.setListenDate(new Date());
