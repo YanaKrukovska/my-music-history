@@ -1,5 +1,7 @@
 package com.ritacle.mhistory.service;
 
+import com.ritacle.mhistory.persistence.model.Album;
+import com.ritacle.mhistory.persistence.model.Artist;
 import com.ritacle.mhistory.persistence.model.Listen;
 import com.ritacle.mhistory.persistence.model.Song;
 import com.ritacle.mhistory.persistence.repository.ListenRepository;
@@ -17,16 +19,34 @@ public class ListenServiceImpl implements ListenService {
     @Autowired
     SongService songService;
 
+    @Autowired
+    ArtistService artistService;
+
+    @Autowired
+    AlbumService albumService;
+
     @Override
     public Listen addListen(Listen listen) {
-        Objects.requireNonNull(listen, "Listen is required");
-        Song song = songService.getSong(listen.getSong());
-        if (song == null) {
-          song =  songService.save(listen.getSong());
-        }
-            listen.setSong(song);
+        validateListen(listen);
+
+        Song song = listen.getSong();
+
+
+        song.getAlbum().setArtist( artistService.save(listen.getSong().getAlbum().getArtist()));
+        song.setAlbum(albumService.save(song.getAlbum()));
+        listen.setSong(songService.save(song));
+
 
         return repository.save(listen);
+    }
+
+    private void validateListen(Listen listen) {
+        Objects.requireNonNull(listen, "Listen is required");
+        Objects.requireNonNull(listen.getSong(), "Song is required");
+        Objects.requireNonNull(listen.getSong().getAlbum().getArtist(), "Artist is required");
+        Objects.requireNonNull(listen.getSong().getAlbum().getArtist().getName(), "Artist name is required");
+        Objects.requireNonNull(listen.getSong().getAlbum(), "Album is required");
+        Objects.requireNonNull(listen.getSong().getAlbum().getTitle(), "Album name is required");
     }
 
     @Override
