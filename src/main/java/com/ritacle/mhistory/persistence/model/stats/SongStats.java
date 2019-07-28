@@ -5,7 +5,7 @@ import javax.persistence.Column;
 public class SongStats {
 
     @Column(nullable = false)
-    private String rank;
+    private int rank;
 
     @Column(nullable = false)
     private String title;
@@ -16,14 +16,18 @@ public class SongStats {
     @Column(nullable = false)
     private String album;
 
+    @Column(nullable = false)
+    private int listenAmount;
+
+
     public SongStats() {
     }
 
-    public String getRank() {
+    public int getRank() {
         return rank;
     }
 
-    public void setRank(String rank) {
+    public void setRank(int rank) {
         this.rank = rank;
     }
 
@@ -51,8 +55,16 @@ public class SongStats {
         this.album = album;
     }
 
+    public int getListenAmount() {
+        return listenAmount;
+    }
+
+    public void setListenAmount(int listenAmount) {
+        this.listenAmount = listenAmount;
+    }
+
     @Override
     public String toString() {
-        return String.format("Song statistic: rank = %s, title = %s, artist = %s, album = %s ", rank, title, artist, album);
+        return String.format("Song statistic: rank = %s, title = %s, artist = %s, album = %s, amount of listens = %s ", rank, title, artist, album, listenAmount);
     }
 }
