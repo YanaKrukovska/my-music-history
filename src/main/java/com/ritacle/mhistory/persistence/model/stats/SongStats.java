@@ -19,7 +19,6 @@ public class SongStats {
     @Column(nullable = false)
     private int listenAmount;
 
-
     public SongStats() {
     }
 
