@@ -1,7 +1,9 @@
 package com.ritacle.mhistory.persistence.model.stats;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 
+@Entity
 public class SongStats {
 
     @Column(nullable = false)
