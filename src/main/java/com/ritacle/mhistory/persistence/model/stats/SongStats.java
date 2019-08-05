@@ -36,7 +36,7 @@ public class SongStats {
 
      private String userMail;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
    // @Column(name = "LISTEN_DATE")
     @Column
     private Date listenDate;
