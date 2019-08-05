@@ -9,37 +9,42 @@ import java.util.Date;
 @Entity
 @Subselect("SELECT * FROM song_stats_by_date")
 @Immutable
+@Table(name = "song_stats_by_date")
+//TODO Rename entity because it is not stats. It's just human readable listens
 public class SongStats {
 
     @Id
     @GeneratedValue
     private Long id;
+    //TODO Remove field
+    //@Column(nullable = false)
+    //private int rank;
 
-    @Column(nullable = false)
-    private int rank;
-
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String artist;
 
-    @Column(nullable = false)
+   // @Column(nullable = false)
     private String album;
 
-    @Column(nullable = false)
-    private int listenAmount;
+    //TODO Remove field
+    //@Column(nullable = false)
+    //private int listenAmount;
 
-    @Column(nullable = false)
-    private String userMail;
+
+     private String userMail;
 
     @Temporal(TemporalType.DATE)
+   // @Column(name = "LISTEN_DATE")
+    @Column
     private Date listenDate;
 
 
     public SongStats() {
     }
-
+/*
     public int getRank() {
         return rank;
     }
@@ -47,7 +52,7 @@ public class SongStats {
     public void setRank(int rank) {
         this.rank = rank;
     }
-
+*/
     public String getTitle() {
         return title;
     }
@@ -72,13 +77,15 @@ public class SongStats {
         this.album = album;
     }
 
-    public int getListenAmount() {
+ /*   public int getListenAmount() {
         return listenAmount;
     }
 
     public void setListenAmount(int listenAmount) {
         this.listenAmount = listenAmount;
     }
+
+    */
 
     public Long getId() {
         return id;
@@ -106,6 +113,6 @@ public class SongStats {
 
     @Override
     public String toString() {
-        return String.format("Song statistic: rank = %s, title = %s, artist = %s, album = %s, amount of listens = %s ", rank, title, artist, album, listenAmount);
+        return String.format("Song statistic :title = %s, artist = %s, album = %s",  title, artist, album);
     }
 }
