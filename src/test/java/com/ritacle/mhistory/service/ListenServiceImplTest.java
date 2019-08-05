@@ -1,11 +1,9 @@
 package com.ritacle.mhistory.service;
 
-import com.ritacle.mhistory.persistence.model.Album;
-import com.ritacle.mhistory.persistence.model.Artist;
-import com.ritacle.mhistory.persistence.model.Listen;
-import com.ritacle.mhistory.persistence.model.Song;
+import com.ritacle.mhistory.persistence.model.*;
 import com.ritacle.mhistory.persistence.repository.SongRepository;
 import com.ritacle.mhistory.persistence.repository.UserRepository;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,9 @@ public class ListenServiceImplTest {
     ListenService service;
 
     @Autowired
+    UserService userService;
+
+    @Autowired
     UserRepository userRepository;
 
     @Autowired
@@ -44,6 +45,7 @@ public class ListenServiceImplTest {
         assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
     }
 
+
     @Test
     public void addListenNotExistingSong() {
         Listen listen = new Listen();
@@ -57,6 +59,33 @@ public class ListenServiceImplTest {
         assertNotNull(result.getSong().getId());
         assertEquals("Skibidi", songRepository.findById(result.getSong().getId()).get().getTitle());
 
+    }
+
+
+    @Test
+    public void addListenExistingUser() {
+        Listen listen = new Listen();
+        Song song = new Song("Sweet But Psycho", new Album("Sweet But Psycho", new Artist("Ava Max")));
+        listen.setSong(song);
+        listen.setUser(userService.save( new User("v.krukovskyy@gmail.com")));
+        listen.setListenDate(new Date());
+
+        Listen result = service.addListen(listen);
+        assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
+        assertEquals("v.krukovskyy@gmail.com", result.getUser().getMail());
+    }
+
+
+    @Test
+    public void addListenNotExistingUser() {
+        Listen listen = new Listen();
+        Song song = new Song("Sweet But Psycho",  new Album("Sweet But Psycho",new Artist("Ava Max")));
+        listen.setSong(song);
+        listen.setUser(userService.save(  new User("Test", "Test", "test@gmail.com", "", "F", new Date(2019-07-31))));
+        listen.setListenDate(new Date());
+
+        Listen result = service.addListen(listen);
+        assertEquals("test@gmail.com", result.getUser().getMail());
     }
 
 
