@@ -1,10 +1,19 @@
 package com.ritacle.mhistory.persistence.model.stats;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.Subselect;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@Subselect("SELECT * FROM song_stats_by_date")
+@Immutable
 public class SongStats {
+
+    @Id
+    @GeneratedValue
+    private Long id;
 
     @Column(nullable = false)
     private int rank;
@@ -20,6 +29,13 @@ public class SongStats {
 
     @Column(nullable = false)
     private int listenAmount;
+
+    @Column(nullable = false)
+    private String userMail;
+
+    @Temporal(TemporalType.DATE)
+    private Date listenDate;
+
 
     public SongStats() {
     }
@@ -62,6 +78,30 @@ public class SongStats {
 
     public void setListenAmount(int listenAmount) {
         this.listenAmount = listenAmount;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getUser() {
+        return userMail;
+    }
+
+    public void setUserMail(String userMail) {
+        this.userMail = userMail;
+    }
+
+    public Date getDate() {
+        return listenDate;
+    }
+
+    public void setDate(Date listenDate) {
+        this.listenDate = listenDate;
     }
 
     @Override

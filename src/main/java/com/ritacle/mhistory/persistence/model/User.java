@@ -11,8 +11,8 @@ import java.util.Date;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String userName;
@@ -33,18 +33,34 @@ public class User {
     @Temporal(TemporalType.DATE)
     private Date birthDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id", foreignKey = @ForeignKey(name = "COUNTRY_ID_FK"))
     private Country country;
 
     public User() {
     }
 
-    public long getId() {
+    public User(String mail) {
+        this.mail = mail;
+    }
+
+    public User(String userName, String nickName, String mail, String password, String gender, Date birthDate) {
+        this.userName = userName;
+        this.nickName = nickName;
+        this.mail = mail;
+        this.password = password;
+        this.gender = gender;
+        this.birthDate = birthDate;
+
+    }
+
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

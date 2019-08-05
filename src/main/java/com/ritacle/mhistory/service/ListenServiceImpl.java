@@ -1,7 +1,5 @@
 package com.ritacle.mhistory.service;
 
-import com.ritacle.mhistory.persistence.model.Album;
-import com.ritacle.mhistory.persistence.model.Artist;
 import com.ritacle.mhistory.persistence.model.Listen;
 import com.ritacle.mhistory.persistence.model.Song;
 import com.ritacle.mhistory.persistence.repository.ListenRepository;
@@ -25,17 +23,20 @@ public class ListenServiceImpl implements ListenService {
     @Autowired
     AlbumService albumService;
 
+    @Autowired
+    UserService userService;
+
+
     @Override
     public Listen addListen(Listen listen) {
         validateListen(listen);
 
         Song song = listen.getSong();
-
-
-        song.getAlbum().setArtist( artistService.save(listen.getSong().getAlbum().getArtist()));
+        song.getAlbum().setArtist(artistService.save(listen.getSong().getAlbum().getArtist()));
         song.setAlbum(albumService.save(song.getAlbum()));
         listen.setSong(songService.save(song));
 
+      // listen.setUser(userService.save(listen.getUser()));
 
         return repository.save(listen);
     }
