@@ -1,6 +1,6 @@
 package com.ritacle.mhistory.rest;
 
-import com.ritacle.mhistory.persistence.model.stats.SongStats;
+import com.ritacle.mhistory.persistence.model.stats.LastListen;
 import com.ritacle.mhistory.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -19,8 +19,8 @@ public class ReportRestService {
 private StatisticsService statisticsService;
 
 
-   @GetMapping("/listen/{mail}")
-   public List<SongStats> getSongReport(@PathVariable String mail) {
-       return statisticsService.getUserListens(mail, Sort.by(Sort.Order.desc("listenDate")));
+   @GetMapping("/listen/last/{mail}")
+   public List<LastListen> getLastListens(@PathVariable String mail) {
+       return statisticsService.getLastUserListens(mail, Sort.by(Sort.Order.desc("listenDate")));
   }
 }

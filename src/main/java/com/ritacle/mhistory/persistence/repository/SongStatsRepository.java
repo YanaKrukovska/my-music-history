@@ -1,13 +1,13 @@
 package com.ritacle.mhistory.persistence.repository;
 
-import com.ritacle.mhistory.persistence.model.stats.SongStats;
+import com.ritacle.mhistory.persistence.model.stats.LastListen;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SongStatsRepository extends JpaRepository<SongStats, Long> {
+public interface SongStatsRepository extends JpaRepository<LastListen, Long> {
 
 
-    List<SongStats> findFirst30ByUserMailIgnoreCase(String userMail, Sort sort);
+    List<LastListen> findFirst30ByUserMailIgnoreCase(String userMail, Sort sort);
 }

@@ -10,49 +10,31 @@ import java.util.Date;
 @Subselect("SELECT * FROM song_stats_by_date")
 @Immutable
 @Table(name = "song_stats_by_date")
-//TODO Rename entity because it is not stats. It's just human readable listens
-public class SongStats {
+
+public class LastListen {
 
     @Id
     @GeneratedValue
     private Long id;
-    //TODO Remove field
-    //@Column(nullable = false)
-    //private int rank;
 
-    //@Column(nullable = false)
+
     private String title;
 
-   // @Column(nullable = false)
     private String artist;
 
-   // @Column(nullable = false)
     private String album;
-
-    //TODO Remove field
-    //@Column(nullable = false)
-    //private int listenAmount;
 
 
      private String userMail;
 
     @Temporal(TemporalType.TIMESTAMP)
-   // @Column(name = "LISTEN_DATE")
     @Column
     private Date listenDate;
 
 
-    public SongStats() {
-    }
-/*
-    public int getRank() {
-        return rank;
+    public LastListen() {
     }
 
-    public void setRank(int rank) {
-        this.rank = rank;
-    }
-*/
     public String getTitle() {
         return title;
     }
@@ -77,15 +59,6 @@ public class SongStats {
         this.album = album;
     }
 
- /*   public int getListenAmount() {
-        return listenAmount;
-    }
-
-    public void setListenAmount(int listenAmount) {
-        this.listenAmount = listenAmount;
-    }
-
-    */
 
     public Long getId() {
         return id;
@@ -113,6 +86,6 @@ public class SongStats {
 
     @Override
     public String toString() {
-        return String.format("Song statistic :title = %s, artist = %s, album = %s",  title, artist, album);
+        return String.format("Last listen :title = %s, artist = %s, album = %s",  title, artist, album);
     }
 }

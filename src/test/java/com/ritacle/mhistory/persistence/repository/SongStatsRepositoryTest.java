@@ -1,6 +1,6 @@
 package com.ritacle.mhistory.persistence.repository;
 
-import com.ritacle.mhistory.persistence.model.stats.SongStats;
+import com.ritacle.mhistory.persistence.model.stats.LastListen;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,7 +23,7 @@ public class SongStatsRepositoryTest {
 
     @Test
     public void getSongStats() {
-        List<SongStats> result = repository.findFirst30ByUserMailIgnoreCase("jana.krua@gmail.com",
+        List<LastListen> result = repository.findFirst30ByUserMailIgnoreCase("jana.krua@gmail.com",
                 Sort.by(Sort.Order.desc("listenDate")));
         Assert.assertTrue(result.size() > 0);
     }
