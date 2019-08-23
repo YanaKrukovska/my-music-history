@@ -17,10 +17,15 @@ public class LastListen {
     @GeneratedValue
     private Long id;
 
+
     private String title;
+
     private String artist;
+
     private String album;
-    private String userMail;
+
+
+     private String userMail;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column
@@ -81,6 +86,6 @@ public class LastListen {
 
     @Override
     public String toString() {
-        return String.format("Last listen :title = %s, artist = %s, album = %s", title, artist, album);
+        return String.format("Last listen :title = %s, artist = %s, album = %s",  title, artist, album);
     }
 }

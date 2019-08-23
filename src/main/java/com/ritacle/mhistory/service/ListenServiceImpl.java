@@ -5,12 +5,10 @@ import com.ritacle.mhistory.persistence.model.Song;
 import com.ritacle.mhistory.persistence.repository.ListenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 
 @Service
-@Transactional
 public class ListenServiceImpl implements ListenService {
 
     @Autowired
@@ -38,7 +36,7 @@ public class ListenServiceImpl implements ListenService {
         song.setAlbum(albumService.save(song.getAlbum()));
         listen.setSong(songService.save(song));
 
-       listen.setUser(userService.save(listen.getUser()));
+      // listen.setUser(userService.save(listen.getUser()));
 
         return repository.save(listen);
     }

@@ -34,7 +34,6 @@ public class ListenServiceImplTest {
     SongRepository songRepository;
 
     @Test
-    @Ignore
     public void addListenExistingSong() {
         Listen listen = new Listen();
         Song song = new Song("Sweet But Psycho",  new Album("Sweet But Psycho",new Artist("Ava Max")));
@@ -48,7 +47,6 @@ public class ListenServiceImplTest {
 
 
     @Test
-    @Ignore
     public void addListenNotExistingSong() {
         Listen listen = new Listen();
         Song song = new Song("Skibidi",  new Album( "Antipositive, Pt. 2", new Artist( "Little Big")));
