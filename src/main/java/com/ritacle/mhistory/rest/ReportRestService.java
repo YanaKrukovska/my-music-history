@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -30,7 +31,9 @@ public class ReportRestService {
 
     @RequestMapping(method = RequestMethod.GET, value = "/top/songs/{mail}/{startDate}/{endDate}")
     @ResponseBody
-    public List<TopSong> getUserTopListens(@PathVariable String mail, @PathVariable Date startDate, @PathVariable Date endDate) {
+    public List<TopSong> getUserTopListens(@PathVariable String mail, @PathVariable
+    @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                           @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         logger.debug("Getting top listens user:{} [{} - {})", mail, startDate, endDate);
         return statisticsService.getUserTopListens(mail, startDate, endDate);
     }
