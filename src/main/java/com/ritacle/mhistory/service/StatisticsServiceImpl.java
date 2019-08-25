@@ -15,7 +15,6 @@ import java.util.List;
 
 import static com.ritacle.mhistory.utils.DateUtils.atEndOfDate;
 import static com.ritacle.mhistory.utils.DateUtils.atStartOfDate;
-import static com.ritacle.mhistory.utils.DateUtils.createDate;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
