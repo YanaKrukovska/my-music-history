@@ -3,12 +3,11 @@ package com.ritacle.mhistory.rest;
 import com.ritacle.mhistory.persistence.model.stats.LastListen;
 import com.ritacle.mhistory.persistence.model.stats.TopSong;
 import com.ritacle.mhistory.service.StatisticsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +18,7 @@ public class ReportRestService {
 
     @Autowired
     private StatisticsService statisticsService;
+    Logger logger = LoggerFactory.getLogger(StatisticsService.class);
 
 
     @GetMapping("/listen/last/{mail}")
@@ -27,7 +27,9 @@ public class ReportRestService {
     }
 
     @GetMapping("/top/songs/{mail}/{startDate}/{endDate}")
+    @ResponseBody
     public List<TopSong> getUserTopListens(@PathVariable String mail, @PathVariable Date startDate, @PathVariable Date endDate) {
+        logger.debug("Getting top listens user:{} [{} - {})", mail, startDate, endDate);
         return statisticsService.getUserTopListens(mail, startDate, endDate);
     }
 }

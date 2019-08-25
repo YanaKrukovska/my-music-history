@@ -4,6 +4,9 @@ import com.ritacle.mhistory.persistence.model.stats.LastListen;
 import com.ritacle.mhistory.persistence.model.stats.TopSong;
 import com.ritacle.mhistory.persistence.repository.LastListenRepository;
 import com.ritacle.mhistory.persistence.repository.UserRepository;
+import com.ritacle.mhistory.rest.ListenRestService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -19,13 +22,13 @@ import static com.ritacle.mhistory.utils.DateUtils.atStartOfDate;
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
 
+    Logger logger = LoggerFactory.getLogger(StatisticsServiceImpl.class);
 
     @Autowired
     LastListenRepository lastListenRepository;
 
     @Autowired
     UserRepository userRepository;
-
 
 
     @Override
@@ -64,7 +67,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         List<TopSong> result = new LinkedList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(SQL_SELECT);
-            preparedStatement.setLong(1,userRepository.findUserByMailIgnoreCase(userMail).getId());
+            preparedStatement.setLong(1, userRepository.findUserByMailIgnoreCase(userMail).getId());
             preparedStatement.setTimestamp(2, new java.sql.Timestamp(atStartOfDate(startDate).getTime()));
             preparedStatement.setTimestamp(3, new java.sql.Timestamp(atEndOfDate(endDate).getTime()));
 
@@ -78,15 +81,15 @@ public class StatisticsServiceImpl implements StatisticsService {
                 int listencount = resultSet.getInt("listencount");
 
                 TopSong listenEntity = new TopSong(songtitle, null, artist, null, listencount);
-
                 result.add(listenEntity);
 
             }
-            result.forEach(x -> System.out.println(x));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
+        } catch (SQLException e) {
+            logger.error(e.getMessage());
+
+        }
+        logger.debug("Getting top listens user:{} [{} - {}) count= {}  ", userMail, startDate, endDate, result.size());
         return result;
     }
 
