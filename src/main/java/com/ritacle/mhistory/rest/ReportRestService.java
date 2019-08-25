@@ -23,6 +23,7 @@ public class ReportRestService {
 
     @GetMapping("/listen/last/{mail}")
     public List<LastListen> getLastListens(@PathVariable String mail) {
+        logger.debug("Getting last listens for user:{} [{} - {})", mail);
         return statisticsService.getLastUserListens(mail, Sort.by(Sort.Order.desc("listenDate")));
     }
 
