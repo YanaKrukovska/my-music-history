@@ -3,29 +3,37 @@ package com.ritacle.mhistory.persistence.model;
 import javax.persistence.*;
 
 @Entity
+@Table(
+        uniqueConstraints = @UniqueConstraint(name = "song_constraint", columnNames = {"title", "album_id"})
+)
+
 public class Song {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
-    private String artist;
 
-    @Column(nullable = false)
-    private String album;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "album_id", foreignKey = @ForeignKey(name = "ALBUM_ID_FK"))
+    private Album album;
 
     public Song() {
     }
 
-    public long getId() {
+    public Song(String title, Album album) {
+        this.title = title;
+        this.album = album;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -33,23 +41,23 @@ public class Song {
         return title;
     }
 
+
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public String getArtist() {
-        return artist;
-    }
 
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
+    @Override
+    public String toString() {
+        return String.format("Song: id = %s, title = %s", id, title);
     }
 }

@@ -12,8 +12,12 @@ public class Country {
     @Column(nullable = false)
     private String fullName;
 
-    @Column(updatable = false, nullable = false, length = 50)
+    @Column(updatable = false, nullable = false, length = 2)
     private String countryCode;
+
+
+    public Country() {
+    }
 
     public long getId() {
         return id;
@@ -37,6 +41,11 @@ public class Country {
 
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Country: id = " + id + ", full name = " + fullName + ", countryCode = " + countryCode ;
     }
 }
 
