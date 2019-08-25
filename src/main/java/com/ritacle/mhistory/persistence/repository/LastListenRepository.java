@@ -6,8 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface SongStatsRepository extends JpaRepository<LastListen, Long> {
-
+public interface LastListenRepository extends JpaRepository<LastListen, Long> {
 
     List<LastListen> findFirst30ByUserMailIgnoreCase(String userMail, Sort sort);
 }
