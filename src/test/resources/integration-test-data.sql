@@ -39,3 +39,9 @@ values (1, '2019-07-13 14:03:00', 2, 2);
 
 insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID)
 values (2, '2019-07-13 13:53:50', 2, 1);
+
+insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID)
+values (3, '2019-07-11 14:03:00', 1, 2);
+
+insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID)
+values (4, '2019-07-14 14:03:00', 3, 2);
