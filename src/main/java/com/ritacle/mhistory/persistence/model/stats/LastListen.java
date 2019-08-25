@@ -10,50 +10,35 @@ import java.util.Date;
 @Subselect("SELECT * FROM song_stats_by_date")
 @Immutable
 @Table(name = "song_stats_by_date")
+public class LastListen extends ListenAbs {
 
-public class LastListen {
+    private Date dateListen;
+
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private String artist;
-    private String album;
-    private String userMail;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column
-    private Date listenDate;
+    public LastListen(Date dateListen) {
+        this.dateListen = dateListen;
+    }
 
+    public LastListen(String title, String album, String artist, String userMail, Date dateListen) {
+        super(title, album, artist, userMail);
+        this.dateListen = dateListen;
+    }
 
     public LastListen() {
     }
 
-    public String getTitle() {
-        return title;
+    public Date getDateListen() {
+        return dateListen;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setDateListen(Date dateListen) {
+        this.dateListen = dateListen;
     }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getAlbum() {
-        return album;
-    }
-
-    public void setAlbum(String album) {
-        this.album = album;
-    }
-
 
     public Long getId() {
         return id;
@@ -61,26 +46,5 @@ public class LastListen {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getUser() {
-        return userMail;
-    }
-
-    public void setUserMail(String userMail) {
-        this.userMail = userMail;
-    }
-
-    public Date getDate() {
-        return listenDate;
-    }
-
-    public void setDate(Date listenDate) {
-        this.listenDate = listenDate;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Last listen :title = %s, artist = %s, album = %s", title, artist, album);
     }
 }

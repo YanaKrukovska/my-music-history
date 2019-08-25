@@ -1,6 +1,6 @@
 package com.ritacle.mhistory.persistence.repository;
 
-import com.ritacle.mhistory.persistence.model.LastListen;
+import com.ritacle.mhistory.persistence.model.stats.LastListen;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,7 +1,7 @@
 package com.ritacle.mhistory.service;
 
-import com.ritacle.mhistory.persistence.model.LastListen;
-import com.ritacle.mhistory.persistence.model.ListenAmount;
+import com.ritacle.mhistory.persistence.model.stats.LastListen;
+import com.ritacle.mhistory.persistence.model.stats.TopSong;
 import com.ritacle.mhistory.persistence.repository.LastListenRepository;
 import com.ritacle.mhistory.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<ListenAmount> getUserTopListens(String userMail, Date startDate, Date endDate) {
+    public List<TopSong> getUserTopListens(String userMail, Date startDate, Date endDate) {
 
         String SQL_SELECT = "select\n" +
                 "         s.title as songTitle,\n" +
@@ -62,7 +62,7 @@ public class StatisticsServiceImpl implements StatisticsService {
         }
 
 
-        List<ListenAmount> result = new LinkedList<>();
+        List<TopSong> result = new LinkedList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(SQL_SELECT);
             preparedStatement.setLong(1,userRepository.findUserByMailIgnoreCase(userMail).getId());
@@ -78,7 +78,7 @@ public class StatisticsServiceImpl implements StatisticsService {
                 String artist = resultSet.getString("artist");
                 int listencount = resultSet.getInt("listencount");
 
-                ListenAmount listenEntity = new ListenAmount(songtitle, null, artist, null, listencount);
+                TopSong listenEntity = new TopSong(songtitle, null, artist, null, listencount);
 
                 result.add(listenEntity);
 

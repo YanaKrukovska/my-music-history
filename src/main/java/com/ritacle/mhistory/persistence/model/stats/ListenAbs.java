@@ -1,16 +1,11 @@
-package com.ritacle.mhistory.persistence.model;
+package com.ritacle.mhistory.persistence.model.stats;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.hibernate.annotations.Immutable;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import java.util.StringJoiner;
 
+@Immutable
 public abstract class ListenAbs {
-
-    @Id
-    @GeneratedValue
-    private Long id;
 
     private String title;
     private String album;
@@ -29,14 +24,6 @@ public abstract class ListenAbs {
     }
 
 
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -73,7 +60,6 @@ public abstract class ListenAbs {
     @Override
     public String toString() {
         return new StringJoiner(", ", ListenAbs.class.getSimpleName() + "[", "]")
-                .add("id=" + id)
                 .add("title='" + title + "'")
                 .add("album='" + album + "'")
                 .add("artist='" + artist + "'")

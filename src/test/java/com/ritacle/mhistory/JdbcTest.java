@@ -1,11 +1,9 @@
 package com.ritacle.mhistory;
 
-import com.ritacle.mhistory.persistence.model.ListenAmount;
-import com.ritacle.mhistory.utils.DateUtils;
+import com.ritacle.mhistory.persistence.model.stats.TopSong;
 import org.junit.Test;
 
 import java.sql.*;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,14 +48,14 @@ public class JdbcTest {
             ResultSet resultSet = preparedStatement.executeQuery();
 
 
-            List<ListenAmount> result = new LinkedList<>();
+            List<TopSong> result = new LinkedList<>();
             while (resultSet.next()) {
 
                 String songtitle = resultSet.getString("songtitle");
                 String artist = resultSet.getString("artist");
                 int listencount = resultSet.getInt("listencount");
 
-                ListenAmount listenEntity = new ListenAmount(songtitle, null, artist, null, listencount);
+                TopSong listenEntity = new TopSong(songtitle, null, artist, null, listencount);
 
                 result.add(listenEntity);
 

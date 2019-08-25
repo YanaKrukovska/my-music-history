@@ -1,6 +1,6 @@
 package com.ritacle.mhistory.persistence.repository;
 
-import com.ritacle.mhistory.persistence.model.LastListen;
+import com.ritacle.mhistory.persistence.model.stats.LastListen;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

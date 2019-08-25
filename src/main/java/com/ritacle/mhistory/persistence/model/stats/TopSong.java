@@ -1,25 +1,22 @@
-package com.ritacle.mhistory.persistence.model;
+package com.ritacle.mhistory.persistence.model.stats;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.Immutable;
-import org.hibernate.annotations.Subselect;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.StringJoiner;
 
-public class ListenAmount extends ListenAbs {
+@Immutable
+public class TopSong extends ListenAbs {
 
     private int listenCount;
 
-    public ListenAmount() {
+    public TopSong() {
     }
 
-    public ListenAmount(int listenCount) {
+    public TopSong(int listenCount) {
         this.listenCount = listenCount;
     }
 
-    public ListenAmount(String title, String album, String artist, String userMail, int listenCount) {
+    public TopSong(String title, String album, String artist, String userMail, int listenCount) {
         super(title, album, artist, userMail);
         this.listenCount = listenCount;
     }
@@ -35,7 +32,7 @@ public class ListenAmount extends ListenAbs {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", ListenAmount.class.getSimpleName() + "[", "]")
+        return new StringJoiner(", ", TopSong.class.getSimpleName() + "[", "]")
                 .add(super.toString())
                 .add("listenCount=" + listenCount)
                 .toString();

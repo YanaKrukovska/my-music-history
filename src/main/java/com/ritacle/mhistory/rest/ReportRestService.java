@@ -1,7 +1,7 @@
 package com.ritacle.mhistory.rest;
 
-import com.ritacle.mhistory.persistence.model.LastListen;
-import com.ritacle.mhistory.persistence.model.ListenAmount;
+import com.ritacle.mhistory.persistence.model.stats.LastListen;
+import com.ritacle.mhistory.persistence.model.stats.TopSong;
 import com.ritacle.mhistory.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -27,7 +27,7 @@ public class ReportRestService {
     }
 
     @GetMapping("/top/songs/{mail}/{startDate}/{endDate}")
-    public List<ListenAmount> getUserTopListens(@PathVariable String mail, @PathVariable Date startDate, @PathVariable Date endDate) {
+    public List<TopSong> getUserTopListens(@PathVariable String mail, @PathVariable Date startDate, @PathVariable Date endDate) {
         return statisticsService.getUserTopListens(mail, startDate, endDate);
     }
 }
