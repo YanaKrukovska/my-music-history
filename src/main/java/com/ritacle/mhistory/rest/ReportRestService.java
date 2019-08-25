@@ -23,11 +23,12 @@ public class ReportRestService {
 
     @GetMapping("/listen/last/{mail}")
     public List<LastListen> getLastListens(@PathVariable String mail) {
-        logger.debug("Getting last listens for user:{} [{} - {})", mail);
+        logger.debug("Getting last listens for user:{}", mail);
         return statisticsService.getLastUserListens(mail, Sort.by(Sort.Order.desc("listenDate")));
     }
 
-    @GetMapping("/top/songs/{mail}/{startDate}/{endDate}")
+
+    @RequestMapping(method = RequestMethod.GET, value = "/top/songs/{mail}/{startDate}/{endDate}")
     @ResponseBody
     public List<TopSong> getUserTopListens(@PathVariable String mail, @PathVariable Date startDate, @PathVariable Date endDate) {
         logger.debug("Getting top listens user:{} [{} - {})", mail, startDate, endDate);
