@@ -2,9 +2,11 @@ package com.ritacle.mhistory.persistence.model.stats;
 
 import org.hibernate.annotations.Immutable;
 
+import javax.persistence.MappedSuperclass;
 import java.util.StringJoiner;
 
 @Immutable
+@MappedSuperclass
 public abstract class ListenAbs {
 
     private String title;

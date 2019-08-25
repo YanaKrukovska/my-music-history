@@ -12,7 +12,7 @@ import java.util.Date;
 @Table(name = "song_stats_by_date")
 public class LastListen extends ListenAbs {
 
-    private Date dateListen;
+    private Date listenDate;
 
 
     @Id
@@ -20,24 +20,24 @@ public class LastListen extends ListenAbs {
     private Long id;
 
 
-    public LastListen(Date dateListen) {
-        this.dateListen = dateListen;
+    public LastListen(Date listenDate) {
+        this.listenDate = listenDate;
     }
 
-    public LastListen(String title, String album, String artist, String userMail, Date dateListen) {
+    public LastListen(String title, String album, String artist, String userMail, Date listenDate) {
         super(title, album, artist, userMail);
-        this.dateListen = dateListen;
+        this.listenDate = listenDate;
     }
 
     public LastListen() {
     }
 
-    public Date getDateListen() {
-        return dateListen;
+    public Date getListenDate() {
+        return listenDate;
     }
 
-    public void setDateListen(Date dateListen) {
-        this.dateListen = dateListen;
+    public void setListenDate(Date listenDate) {
+        this.listenDate = listenDate;
     }
 
     public Long getId() {
