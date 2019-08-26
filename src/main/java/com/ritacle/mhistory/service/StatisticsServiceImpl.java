@@ -49,7 +49,8 @@ public class StatisticsServiceImpl implements StatisticsService {
                 "         join album a on s.album_id = a.id\n" +
                 "  where  l.user_id =? AND listen_date BETWEEN ? AND ?" +
                 "  group by songTitle, artist\n" +
-                "  order by listenCount desc;";
+                "  order by listenCount desc desc LIMIT 100;";
+
 
 
         Connection con = null;
