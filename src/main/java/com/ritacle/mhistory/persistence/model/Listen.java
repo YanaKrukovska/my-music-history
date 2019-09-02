@@ -7,6 +7,10 @@ import java.util.Date;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "Listen"
+        ,uniqueConstraints = {@UniqueConstraint( name = "listener_id_constraint", columnNames = {"user_id"}),
+        @UniqueConstraint( name = "sync_id_constraint", columnNames = {"sync_id"})}
+)
 public class Listen {
 
     @Id
@@ -24,6 +28,9 @@ public class Listen {
     @Column(name = "listen_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date listenDate;
+
+    @Column(name = "sync_id", nullable = false)
+    private long syncId;
 
     public Listen() {
     }
@@ -58,6 +65,14 @@ public class Listen {
 
     public void setListenDate(Date listenDate) {
         this.listenDate = listenDate;
+    }
+
+    public long getSyncId() {
+        return syncId;
+    }
+
+    public void setSyncId(long syncId) {
+        this.syncId = syncId;
     }
 
     @Override

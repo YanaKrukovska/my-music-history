@@ -27,6 +27,7 @@ public class ListenServiceImpl implements ListenService {
     UserService userService;
 
 
+
     @Override
     public Listen addListen(Listen listen) {
         validateListen(listen);
@@ -53,5 +54,10 @@ public class ListenServiceImpl implements ListenService {
     @Override
     public Listen getListen(Long id) {
         return repository.getOne(id);
+    }
+
+    @Override
+    public boolean checkIfExists(Long listenerId, Long syncId) {
+        return repository.findByUserIdAndSyncId(listenerId, syncId) != null;
     }
 }

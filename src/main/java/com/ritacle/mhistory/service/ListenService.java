@@ -8,4 +8,6 @@ public interface ListenService {
 
     Listen getListen(Long id);
 
+    boolean checkIfExists(Long listenerId, Long syncId);
+
 }

@@ -1,6 +1,7 @@
 package com.ritacle.mhistory.service;
 
 import com.ritacle.mhistory.persistence.model.*;
+import com.ritacle.mhistory.persistence.repository.ListenRepository;
 import com.ritacle.mhistory.persistence.repository.SongRepository;
 import com.ritacle.mhistory.persistence.repository.UserRepository;
 import org.junit.Ignore;
@@ -32,6 +33,7 @@ public class ListenServiceImplTest {
 
     @Autowired
     SongRepository songRepository;
+
 
     @Test
     public void addListenExistingSong() {
@@ -89,4 +91,11 @@ public class ListenServiceImplTest {
     }
 
 
+    @Test
+    public void checkIfExistsExistingSong() {
+
+
+        assertEquals(true, service.checkIfExists(2L, 1L));
+
+    }
 }
