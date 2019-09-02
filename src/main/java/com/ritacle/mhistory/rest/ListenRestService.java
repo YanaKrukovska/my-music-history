@@ -10,27 +10,31 @@ import org.slf4j.LoggerFactory;
 @RestController
 @RequestMapping("/api/listen")
 public class ListenRestService {
-    Logger logger = LoggerFactory.getLogger(ListenRestService.class);
+    private Logger logger = LoggerFactory.getLogger(ListenRestService.class);
+
+    private ListenService service;
 
     @Autowired
-    ListenService service;
+    public ListenRestService(ListenService service) {
+        this.service = service;
+    }
 
     @GetMapping("/{id}")
     public Listen getListen(@PathVariable Long id) {
-        logger.debug("Listen GET");
+        logger.debug("Listen GET id={} ", id);
         return service.getListen(id);
     }
 
     @PostMapping
     @ResponseBody
     public Listen addListen(@RequestBody Listen listen) {
-        logger.debug("Listen PUT");
+        logger.debug("Listen PUT :{}", listen.toString());
         return service.addListen(listen);
     }
 
     @GetMapping("/check/{listenerId}/{syncId}")
     public boolean checkIfExists(@PathVariable Long listenerId, @PathVariable Long syncId) {
-        logger.debug("Listen GET");
+        logger.debug("Listen check listenerId={} syncId={}", listenerId,syncId);
         return service.checkIfExists(listenerId, syncId);
     }
 
