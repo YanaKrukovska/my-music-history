@@ -10,11 +10,3 @@ alter table listen add constraint SONG_ID_FK foreign key (song_id) references so
 alter table listen add constraint USER_ID_FK foreign key (user_id) references listener;
 alter table listener add constraint COUNTRY_ID_FK foreign key (country_id) references country;
 
-ALTER TABLE listen ADD COLUMN sync_id BIGINT;
-UPDATE listen SET sync_id = id;
-ALTER TABLE listen ALTER COLUMN sync_id SET NOT NULL;
-ALTER TABLE listen ALTER COLUMN sync_id DROP NOT NULL;
-ALTER TABLE listen ADD CONSTRAINT sync_id_constraint UNIQUE (user_id, sync_id);
-ALTER TABLE listen DROP CONSTRAINT sync_id_constraint;
-
-
