@@ -11,20 +11,22 @@ import java.util.Objects;
 @Service
 public class ListenServiceImpl implements ListenService {
 
-    @Autowired
-    ListenRepository repository;
+    private ListenRepository repository;
+
+    private SongService songService;
+
+    private ArtistService artistService;
+
+    private AlbumService albumService;
+
 
     @Autowired
-    SongService songService;
-
-    @Autowired
-    ArtistService artistService;
-
-    @Autowired
-    AlbumService albumService;
-
-    @Autowired
-    UserService userService;
+    public ListenServiceImpl(ListenRepository repository, SongService songService, ArtistService artistService, AlbumService albumService) {
+        this.repository = repository;
+        this.songService = songService;
+        this.artistService = artistService;
+        this.albumService = albumService;
+    }
 
 
     @Override
@@ -36,7 +38,7 @@ public class ListenServiceImpl implements ListenService {
         song.setAlbum(albumService.save(song.getAlbum()));
         listen.setSong(songService.save(song));
 
-      // listen.setUser(userService.save(listen.getUser()));
+        // listen.setUser(userService.save(listen.getUser()));
 
         return repository.save(listen);
     }
@@ -53,5 +55,10 @@ public class ListenServiceImpl implements ListenService {
     @Override
     public Listen getListen(Long id) {
         return repository.getOne(id);
+    }
+
+    @Override
+    public boolean checkIfExists(Long listenerId, Long syncId) {
+        return repository.findByUserIdAndSyncId(listenerId, syncId) != null;
     }
 }

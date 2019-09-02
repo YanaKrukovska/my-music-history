@@ -1,6 +1,7 @@
 package com.ritacle.mhistory.service;
 
 import com.ritacle.mhistory.persistence.model.*;
+import com.ritacle.mhistory.persistence.repository.ListenRepository;
 import com.ritacle.mhistory.persistence.repository.SongRepository;
 import com.ritacle.mhistory.persistence.repository.UserRepository;
 import org.junit.Ignore;
@@ -13,8 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,6 +32,7 @@ public class ListenServiceImplTest {
 
     @Autowired
     SongRepository songRepository;
+
 
     @Test
     public void addListenExistingSong() {
@@ -69,6 +70,7 @@ public class ListenServiceImplTest {
         listen.setSong(song);
         listen.setUser(userService.save( new User("v.krukovskyy@gmail.com")));
         listen.setListenDate(new Date());
+        listen.setSyncId(4L);
 
         Listen result = service.addListen(listen);
         assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
@@ -89,4 +91,19 @@ public class ListenServiceImplTest {
     }
 
 
+    @Test
+    public void checkIfExistsExistingSong() {
+
+
+        assertTrue( service.checkIfExists(2L, 1L));
+
+    }
+
+
+    @Test
+    public void checkIfExistsNotExistingSong() {
+
+        assertFalse( service.checkIfExists(1L, 2L));
+
+    }
 }
