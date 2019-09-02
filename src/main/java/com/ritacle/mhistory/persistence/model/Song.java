@@ -1,7 +1,11 @@
 package com.ritacle.mhistory.persistence.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity
 @Table(
         uniqueConstraints = @UniqueConstraint(name = "song_constraint", columnNames = {"title", "album_id"})
