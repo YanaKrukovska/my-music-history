@@ -28,4 +28,11 @@ public class ListenRestService {
         return service.addListen(listen);
     }
 
+    @GetMapping("/check/{listenerId}/{syncId}")
+    public boolean checkIfExists(@PathVariable Long listenerId, @PathVariable Long syncId) {
+        logger.debug("Listen GET");
+        return service.checkIfExists(listenerId, syncId);
+    }
+
+
 }

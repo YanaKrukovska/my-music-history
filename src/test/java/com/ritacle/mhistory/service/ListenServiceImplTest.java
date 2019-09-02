@@ -14,8 +14,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -96,7 +95,7 @@ public class ListenServiceImplTest {
     public void checkIfExistsExistingSong() {
 
 
-        assertEquals(true, service.checkIfExists(2L, 1L));
+        assertTrue( service.checkIfExists(2L, 1L));
 
     }
 
@@ -104,7 +103,7 @@ public class ListenServiceImplTest {
     @Test
     public void checkIfExistsNotExistingSong() {
 
-        assertEquals(false, service.checkIfExists(1L, 2L));
+        assertFalse( service.checkIfExists(1L, 2L));
 
     }
 }
