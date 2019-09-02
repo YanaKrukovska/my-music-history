@@ -8,8 +8,7 @@ import java.util.Date;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Table(name = "Listen"
-        ,uniqueConstraints = {@UniqueConstraint( name = "listener_id_constraint", columnNames = {"user_id"}),
-        @UniqueConstraint( name = "sync_id_constraint", columnNames = {"sync_id"})}
+        ,uniqueConstraints = {@UniqueConstraint( name = "sync_id_constraint", columnNames = {"user_id", "sync_id"})}
 )
 public class Listen {
 

@@ -71,6 +71,7 @@ public class ListenServiceImplTest {
         listen.setSong(song);
         listen.setUser(userService.save( new User("v.krukovskyy@gmail.com")));
         listen.setListenDate(new Date());
+        listen.setSyncId(4L);
 
         Listen result = service.addListen(listen);
         assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
@@ -96,6 +97,14 @@ public class ListenServiceImplTest {
 
 
         assertEquals(true, service.checkIfExists(2L, 1L));
+
+    }
+
+
+    @Test
+    public void checkIfExistsNotExistingSong() {
+
+        assertEquals(false, service.checkIfExists(1L, 2L));
 
     }
 }
