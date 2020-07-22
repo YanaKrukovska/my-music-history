@@ -51,10 +51,17 @@ public class User {
         this.password = password;
         this.gender = gender;
         this.birthDate = birthDate;
-
     }
 
-
+    public User(String userName, String nickName, String mail, String password, String gender, Date birthDate, Country country) {
+        this.userName = userName;
+        this.nickName = nickName;
+        this.mail = mail;
+        this.password = password;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.country = country;
+    }
 
     public Long getId() {
         return id;

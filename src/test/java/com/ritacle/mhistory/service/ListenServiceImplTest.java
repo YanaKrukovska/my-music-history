@@ -68,7 +68,7 @@ public class ListenServiceImplTest {
         Listen listen = new Listen();
         Song song = new Song("Sweet But Psycho", new Album("Sweet But Psycho", new Artist("Ava Max")));
         listen.setSong(song);
-        listen.setUser(userService.save( new User("v.krukovskyy@gmail.com")));
+        listen.setUser(userService.save( new User("v.krukovskyy@gmail.com")).getObject());
         listen.setListenDate(new Date());
         listen.setSyncId(4L);
 
@@ -83,7 +83,7 @@ public class ListenServiceImplTest {
         Listen listen = new Listen();
         Song song = new Song("Sweet But Psycho",  new Album("Sweet But Psycho",new Artist("Ava Max")));
         listen.setSong(song);
-        listen.setUser(userService.save(  new User("Test", "Test", "test@gmail.com", "", "F", new Date(2019-07-31))));
+        listen.setUser(userService.save(  new User("Test", "Test", "test@gmail.com", "", "F", new Date(2019-07-31))).getObject());
         listen.setListenDate(new Date());
 
         Listen result = service.addListen(listen);
