@@ -15,6 +15,9 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    PasswordService passwordService;
+
+    @Autowired
     UserRepository userRepository;
 
     @Override
@@ -45,6 +48,16 @@ public class UserServiceImpl implements UserService {
             return new Response<>(user, errors);
         }
 
+        List<String> passwordErrors = passwordService.validatePasswordsInput(user.getPassword(), user.getConfirmationPassword());
+        if  (!passwordErrors.isEmpty()){
+            return new Response<>(user, errors);
+        }
+
+        if (!passwordService.comparePasswordAndConfirmationPassword(user.getPassword(), user.getConfirmationPassword())) {
+            return new Response<>(user, new LinkedList<>(Collections.singleton("Password and confirmation passwords are different")));
+        }
+
+        user.setPassword(passwordService.encodePassword(user.getPassword()));
         return new Response<>(userRepository.save(user), errors);
     }
 
