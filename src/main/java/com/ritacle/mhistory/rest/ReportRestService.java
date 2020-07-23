@@ -17,9 +17,13 @@ import java.util.List;
 @RequestMapping("/api/report")
 public class ReportRestService {
 
-    @Autowired
-    private StatisticsService statisticsService;
+    private final StatisticsService statisticsService;
     Logger logger = LoggerFactory.getLogger(StatisticsService.class);
+
+    @Autowired
+    public ReportRestService(StatisticsService statisticsService) {
+        this.statisticsService = statisticsService;
+    }
 
 
     @GetMapping("/listen/last/{mail}")
