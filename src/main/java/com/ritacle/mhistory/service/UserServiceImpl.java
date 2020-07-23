@@ -60,9 +60,6 @@ public class UserServiceImpl implements UserService {
             errors.add("Nickname can't be empty");
         }
         if (user.getBirthDate() == null) {
-            errors.add("Country must be selected");
-        }
-        if (user.getBirthDate() == null) {
             errors.add("Birth date must be chosen");
         }
         return errors;

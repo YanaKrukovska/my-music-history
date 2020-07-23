@@ -43,8 +43,15 @@ public class UserServiceImplTest {
 
     @Test
     public void saveUserWithEmptyFields() {
-        User user = new User("User", "", "user@gmail.com", "1", "   ", null, null);
+        User user = new User("User", "", "baduser@gmail.com", "1", "   ", null, null);
         Response<User> result = userService.save(user);
-        assertEquals(4, result.getErrorMessages().size());
+        assertEquals(3, result.getErrorMessages().size());
+    }
+
+    @Test
+    public void saveCorrectUser() {
+        User user = new User("GoodUser", "User", "user@gmail.com", "1", "M", new Date(1989 - 14 - 31), null);
+        Response<User> result = userService.save(user);
+        assertEquals(0, result.getErrorMessages().size());
     }
 }
