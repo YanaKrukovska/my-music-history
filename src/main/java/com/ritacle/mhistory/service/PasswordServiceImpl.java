@@ -1,5 +1,6 @@
 package com.ritacle.mhistory.service;
 
+import com.ritacle.mhistory.persistence.model.InputError;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,13 +25,13 @@ public class PasswordServiceImpl implements PasswordService {
     }
 
     @Override
-    public List<String> validatePasswordsInput(String password, String confirmationPassword) {
-        List<String> errors = new LinkedList<>();
+    public List<InputError> validatePasswordsInput(String password, String confirmationPassword) {
+        List<InputError> errors = new LinkedList<>();
         if (StringUtils.isAllBlank(password)) {
-            errors.add("Password can't be empty");
+            errors.add(new InputError("password","Password can't be empty"));
         }
         if (StringUtils.isAllBlank(confirmationPassword)) {
-            errors.add("Confirmation password can't be empty");
+            errors.add(new InputError("confirmationPassword", "Confirmation password can't be empty"));
         }
         return errors;
     }
