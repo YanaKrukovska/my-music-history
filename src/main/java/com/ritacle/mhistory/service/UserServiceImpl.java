@@ -1,5 +1,6 @@
 package com.ritacle.mhistory.service;
 
+import com.ritacle.mhistory.persistence.model.InputError;
 import com.ritacle.mhistory.persistence.model.Response;
 import com.ritacle.mhistory.persistence.model.User;
 import com.ritacle.mhistory.persistence.repository.UserRepository;
@@ -34,46 +35,47 @@ public class UserServiceImpl implements UserService {
     public Response<User> save(User user) {
 
         if (user == null) {
-            return new Response<>(null, new LinkedList<>(Collections.singleton("User can't be null")));
+            return new Response<>(null, new LinkedList<>(Collections.singleton(new InputError("user", "User can't be null"))));
         }
         if (findUserByMailIgnoreCase(user.getMail()) != null) {
-            return new Response<>(user, new LinkedList<>(Collections.singleton("Mail is already used by another user")));
+            return new Response<>(user, new LinkedList<>(Collections.singleton(new InputError("mail", "Mail is already used by another user"))));
         }
         if (findUserByUserNameIgnoreCase(user.getUserName()) != null) {
-            return new Response<>(user, new LinkedList<>(Collections.singleton("Username is already used by another user")));
+            return new Response<>(user, new LinkedList<>(Collections.singleton(new InputError("username", "Username is already used by another user"))));
         }
 
-        List<String> errors = validateUser(user);
+        List<InputError> errors = validateUser(user);
         if (!errors.isEmpty()) {
             return new Response<>(user, errors);
         }
 
-        List<String> passwordErrors = passwordService.validatePasswordsInput(user.getPassword(), user.getConfirmationPassword());
-        if  (!passwordErrors.isEmpty()){
+        List<InputError> passwordErrors = passwordService.validatePasswordsInput(user.getPassword(), user.getConfirmationPassword());
+        if (!passwordErrors.isEmpty()) {
             return new Response<>(user, errors);
         }
 
         if (!passwordService.comparePasswordAndConfirmationPassword(user.getPassword(), user.getConfirmationPassword())) {
-            return new Response<>(user, new LinkedList<>(Collections.singleton("Password and confirmation passwords are different")));
+            return new Response<>(user, new LinkedList<>(Collections.singleton(new InputError("confirmationPassword", "Passwords do not match"))));
         }
 
         user.setPassword(passwordService.encodePassword(user.getPassword()));
         return new Response<>(userRepository.save(user), errors);
     }
 
-    private List<String> validateUser(User user) {
-        List<String> errors = new LinkedList<>();
+    @Override
+    public List<InputError> validateUser(User user) {
+        List<InputError> errors = new LinkedList<>();
         if (StringUtils.isAllBlank(user.getUserName())) {
-            errors.add("Username can't be empty");
+            errors.add(new InputError("userName", "Username can't be empty"));
         }
         if (StringUtils.isAllBlank(user.getGender())) {
-            errors.add("Gender can't be empty");
+            errors.add(new InputError("gender", "Gender can't be empty"));
         }
         if (StringUtils.isAllBlank(user.getNickName())) {
-            errors.add("Nickname can't be empty");
+            errors.add(new InputError("nickName", "Nickname can't be empty"));
         }
         if (user.getBirthDate() == null) {
-            errors.add("Birth date must be chosen");
+            errors.add(new InputError("birthDate", "Birth date must be chosen"));
         }
         return errors;
     }

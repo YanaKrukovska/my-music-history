@@ -1,5 +1,6 @@
 package com.ritacle.mhistory.service;
 
+import com.ritacle.mhistory.persistence.model.InputError;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,19 +23,19 @@ public class PasswordServiceImplTest {
 
     @Test
     public void validateNullPasswordsInput() {
-        List<String> result = passwordService.validatePasswordsInput(null, null);
+        List<InputError> result = passwordService.validatePasswordsInput(null, null);
         assertEquals(2, result.size());
     }
 
     @Test
     public void validateEmptyPasswordsInput() {
-        List<String> result = passwordService.validatePasswordsInput("", "     ");
+        List<InputError> result = passwordService.validatePasswordsInput("", "     ");
         assertEquals(2, result.size());
     }
 
     @Test
     public void validateCorrectPasswordsInput() {
-        List<String> result = passwordService.validatePasswordsInput("21", "123");
+        List<InputError> result = passwordService.validatePasswordsInput("21", "123");
         assertEquals(0, result.size());
     }
 

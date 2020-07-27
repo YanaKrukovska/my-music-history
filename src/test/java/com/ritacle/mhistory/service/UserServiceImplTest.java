@@ -24,34 +24,34 @@ public class UserServiceImplTest {
     @Test
     public void saveNullUser() {
         Response<User> result = userService.save(null);
-        assertEquals(1, result.getErrorMessages().size());
+        assertEquals(1, result.getErrors().size());
     }
 
     @Test
     public void saveUserWithNotUniqueMail() {
         User user = new User("User", "User", "jana.krua@gmail.com", "1", "F", new Date(1989 - 14 - 31));
         Response<User> result = userService.save(user);
-        assertEquals(1, result.getErrorMessages().size());
+        assertEquals(1, result.getErrors().size());
     }
 
     @Test
     public void saveUserWithNotUniqueUsername() {
         User user = new User("Yana", "User", "jana1.krua@gmail.com", "1", "F", new Date(1989 - 14 - 31));
         Response<User> result = userService.save(user);
-        assertEquals(1, result.getErrorMessages().size());
+        assertEquals(1, result.getErrors().size());
     }
 
     @Test
     public void saveUserWithEmptyFields() {
         User user = new User("User", "", "baduser@gmail.com", "1", "   ", null, null);
         Response<User> result = userService.save(user);
-        assertEquals(3, result.getErrorMessages().size());
+        assertEquals(3, result.getErrors().size());
     }
 
     @Test
     public void saveCorrectUser() {
         User user = new User("GoodUser", "User", "user@gmail.com", "1", "M", new Date(1989 - 14 - 31), null);
         Response<User> result = userService.save(user);
-        assertEquals(0, result.getErrorMessages().size());
+        assertEquals(0, result.getErrors().size());
     }
 }
