@@ -1,6 +1,8 @@
 package com.ritacle.mhistory.rest;
 
 import com.ritacle.mhistory.persistence.model.stats.LastListen;
+import com.ritacle.mhistory.persistence.model.stats.TopAlbum;
+import com.ritacle.mhistory.persistence.model.stats.TopArtist;
 import com.ritacle.mhistory.persistence.model.stats.TopSong;
 import com.ritacle.mhistory.service.StatisticsService;
 import org.slf4j.Logger;
@@ -40,5 +42,23 @@ public class ReportRestService {
                                            @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
         logger.debug("Getting top listens user:{} [{} - {})", mail, startDate, endDate);
         return statisticsService.getUserTopListens(mail, startDate, endDate);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/top/albums/{mail}/{startDate}/{endDate}")
+    @ResponseBody
+    public List<TopAlbum> getUserTopAlbums(@PathVariable String mail, @PathVariable
+    @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                           @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        logger.debug("Getting top albums user:{} [{} - {})", mail, startDate, endDate);
+        return statisticsService.getUserTopAlbums(mail, startDate, endDate);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/top/artists/{mail}/{startDate}/{endDate}")
+    @ResponseBody
+    public List<TopArtist> getUserTopArtists(@PathVariable String mail, @PathVariable
+    @DateTimeFormat(pattern="yyyy-MM-dd") Date startDate,
+                                           @PathVariable @DateTimeFormat(pattern="yyyy-MM-dd") Date endDate) {
+        logger.debug("Getting top artists user:{} [{} - {})", mail, startDate, endDate);
+        return statisticsService.getUserTopArtists(mail, startDate, endDate);
     }
 }
