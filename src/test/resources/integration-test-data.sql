@@ -24,6 +24,7 @@ insert into artist (id, name) values(2,'Tom Odell');
 insert into ALBUM(ID, TITLE, ARTIST_ID, GENRE, RELEASE_DATE ) VALUES (1,'Sweet But Psycho', 1, 'Pop','2018-08-01');
 insert into ALBUM(ID, TITLE,ARTIST_ID, GENRE, RELEASE_DATE ) VALUES (2,'Long Way Down', 2, 'Pop','2013-01-01');
 insert into ALBUM(ID, TITLE,ARTIST_ID, GENRE, RELEASE_DATE ) VALUES (3,'So Am I', 1, 'Pop','2019-01-20');
+insert into ALBUM(ID, TITLE,ARTIST_ID, GENRE, RELEASE_DATE ) VALUES (4,'Wrong Crowd', 2, 'Indie pop','2016-06-10');
 
 insert into song ( ID, ALBUM_ID, TITLE)
 values (1, 3, 'So Am I');
@@ -33,6 +34,15 @@ values (2, 1, 'Sweet But Psycho');
 
 insert into song ( ID, ALBUM_ID, TITLE)
 values (3, 2, 'I Know');
+
+insert into song ( ID, ALBUM_ID, TITLE)
+values (4, 2, 'Another Love');
+
+insert into song ( ID, ALBUM_ID, TITLE)
+values (5, 2, 'Grow Old With Me');
+
+insert into song ( ID, ALBUM_ID, TITLE)
+values (6, 4, 'Magnetised');
 
 insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID, SYNC_ID)
 values (1, '2019-07-13 14:03:00', 2, 2, 1);
@@ -44,4 +54,16 @@ insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID, SYNC_ID)
 values (3, '2019-07-11 14:03:00', 1, 2, 2);
 
 insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID, SYNC_ID)
-values (4, '2019-07-14 14:03:00', 3, 2, 3);
+values (4, '2019-07-14 14:06:00', 4, 2, 3);
+
+insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID, SYNC_ID)
+values (5, '2019-07-15 14:01:00', 5, 2, 4);
+
+insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID, SYNC_ID)
+values (6, '2019-07-15 14:03:00', 5, 2, 5);
+
+insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID, SYNC_ID)
+values (7, '2019-07-15 14:03:00', 3, 2, 6);
+
+insert into listen ( ID, LISTEN_DATE, SONG_ID, USER_ID, SYNC_ID)
+values (8, '2019-07-15 14:03:00', 6, 2, 7);
