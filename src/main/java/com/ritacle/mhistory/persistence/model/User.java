@@ -5,8 +5,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Listener"
-       ,uniqueConstraints = {@UniqueConstraint( name = "mail_constraint", columnNames = {"mail"}),
-        @UniqueConstraint( name = "username_constraint", columnNames = {"username"})}
+        , uniqueConstraints = {@UniqueConstraint(name = "mail_constraint", columnNames = {"mail"}),
+        @UniqueConstraint(name = "username_constraint", columnNames = {"username"})}
 )
 public class User {
 
@@ -61,6 +61,17 @@ public class User {
         this.nickName = nickName;
         this.mail = mail;
         this.password = password;
+        this.gender = gender;
+        this.birthDate = birthDate;
+        this.country = country;
+    }
+
+    public User(String userName, String nickName, String mail, String password, String confirmationPassword, String gender, Date birthDate, Country country) {
+        this.userName = userName;
+        this.nickName = nickName;
+        this.mail = mail;
+        this.password = password;
+        this.confirmationPassword = confirmationPassword;
         this.gender = gender;
         this.birthDate = birthDate;
         this.country = country;

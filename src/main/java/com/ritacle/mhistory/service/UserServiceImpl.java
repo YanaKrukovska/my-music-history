@@ -1,5 +1,6 @@
 package com.ritacle.mhistory.service;
 
+import com.ritacle.mhistory.persistence.model.Country;
 import com.ritacle.mhistory.persistence.model.InputError;
 import com.ritacle.mhistory.persistence.model.Response;
 import com.ritacle.mhistory.persistence.model.User;
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     PasswordService passwordService;
+
+    @Autowired
+    CountryService countryService;
 
     @Autowired
     UserRepository userRepository;
@@ -47,6 +51,13 @@ public class UserServiceImpl implements UserService {
         List<InputError> errors = validateUser(user);
         if (!errors.isEmpty()) {
             return new Response<>(user, errors);
+        }
+
+        if (countryService.findCountryByCountryCodeIgnoreCase(user.getCountry().getCountryCode()) == null) {
+            Response<Country> countryErrors = countryService.save(user.getCountry());
+            if (!countryErrors.isOkay()) {
+                return new Response<>(user, countryErrors.getErrors());
+            }
         }
 
         List<InputError> passwordErrors = passwordService.validatePasswordsInput(user.getPassword(), user.getConfirmationPassword());

@@ -11,12 +11,14 @@ CREATE or replace VIEW song_stats_by_date AS
          join album a on s.album_id = a.id
          join listener l2 on l.user_id = l2.id;
 
+insert into COUNTRY (ID, FULL_NAME, COUNTRY_CODE)
+values (1, 'Ukraine', 'UA');
 
 insert into Listener (ID, GENDER,MAIL,NICK_NAME,PASSWORD,USER_NAME,BIRTH_DATE,COUNTRY_ID)
-values (1,'F', 'jana.krua@gmail.com', 'Yana', '', 'Yana', '2001-09-05',null);
+values (1,'F', 'jana.krua@gmail.com', 'Yana', '', 'Yana', '2001-09-05',1);
 
 insert into Listener (ID, GENDER,MAIL,NICK_NAME,PASSWORD,USER_NAME,BIRTH_DATE,COUNTRY_ID)
-values (2,'M', 'v.krukovskyy@gmail.com', 'Slava', '', 'Slava', '1978-11-13',null);
+values (2,'M', 'v.krukovskyy@gmail.com', 'Slava', '', 'Slava', '1978-11-13',1);
 
 insert into artist (id, name) values(1, 'Ava Max');
 insert into artist (id, name) values(2,'Tom Odell');
