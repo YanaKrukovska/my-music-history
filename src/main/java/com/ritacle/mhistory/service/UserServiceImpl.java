@@ -1,5 +1,6 @@
 package com.ritacle.mhistory.service;
 
+import com.ritacle.mhistory.persistence.model.Country;
 import com.ritacle.mhistory.persistence.model.InputError;
 import com.ritacle.mhistory.persistence.model.Response;
 import com.ritacle.mhistory.persistence.model.User;
@@ -17,6 +18,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     PasswordService passwordService;
+
+    @Autowired
+    CountryService countryService;
 
     @Autowired
     UserRepository userRepository;
@@ -49,6 +53,16 @@ public class UserServiceImpl implements UserService {
             return new Response<>(user, errors);
         }
 
+        Country countryDB = countryService.findCountryByCountryCodeIgnoreCase(user.getCountry().getCountryCode());
+        if (countryDB == null) {
+            Response<Country> countryErrors = countryService.save(user.getCountry());
+            if (!countryErrors.isOkay()) {
+                return new Response<>(user, countryErrors.getErrors());
+            }
+        } else {
+            user.setCountry(countryDB);
+        }
+
         List<InputError> passwordErrors = passwordService.validatePasswordsInput(user.getPassword(), user.getConfirmationPassword());
         if (!passwordErrors.isEmpty()) {
             return new Response<>(user, errors);
@@ -76,6 +90,9 @@ public class UserServiceImpl implements UserService {
         }
         if (user.getBirthDate() == null) {
             errors.add(new InputError("birthDate", "Birth date must be chosen"));
+        }
+        if (user.getCountry() == null) {
+            errors.add(new InputError("country", "Country must be chosen"));
         }
         return errors;
     }

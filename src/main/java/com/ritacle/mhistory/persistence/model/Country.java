@@ -3,10 +3,11 @@ package com.ritacle.mhistory.persistence.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "Country")
 public class Country {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(nullable = false)
@@ -17,6 +18,11 @@ public class Country {
 
 
     public Country() {
+    }
+
+    public Country(String fullName, String countryCode) {
+        this.fullName = fullName;
+        this.countryCode = countryCode;
     }
 
     public long getId() {
@@ -45,7 +51,7 @@ public class Country {
 
     @Override
     public String toString() {
-        return "Country: id = " + id + ", full name = " + fullName + ", countryCode = " + countryCode ;
+        return "Country: id = " + id + ", full name = " + fullName + ", countryCode = " + countryCode;
     }
 }
 
