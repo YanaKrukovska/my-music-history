@@ -53,11 +53,14 @@ public class UserServiceImpl implements UserService {
             return new Response<>(user, errors);
         }
 
-        if (countryService.findCountryByCountryCodeIgnoreCase(user.getCountry().getCountryCode()) == null) {
+        Country countryDB = countryService.findCountryByCountryCodeIgnoreCase(user.getCountry().getCountryCode());
+        if (countryDB == null) {
             Response<Country> countryErrors = countryService.save(user.getCountry());
             if (!countryErrors.isOkay()) {
                 return new Response<>(user, countryErrors.getErrors());
             }
+        } else {
+            user.setCountry(countryDB);
         }
 
         List<InputError> passwordErrors = passwordService.validatePasswordsInput(user.getPassword(), user.getConfirmationPassword());
@@ -87,6 +90,9 @@ public class UserServiceImpl implements UserService {
         }
         if (user.getBirthDate() == null) {
             errors.add(new InputError("birthDate", "Birth date must be chosen"));
+        }
+        if (user.getCountry() == null) {
+            errors.add(new InputError("country", "Country must be chosen"));
         }
         return errors;
     }

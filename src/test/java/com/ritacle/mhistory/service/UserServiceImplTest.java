@@ -47,14 +47,20 @@ public class UserServiceImplTest {
     public void saveUserWithEmptyFields() {
         User user = new User("User", "", "baduser@gmail.com", "1", "   ", null, null);
         Response<User> result = userService.save(user);
-        assertEquals(3, result.getErrors().size());
+        assertEquals(4, result.getErrors().size());
     }
 
     @Test
-    public void saveCorrectUser() {
+    public void saveUserWithEmptyCountry() {
+        User user = new User("User", "User", "countrylessuser@gmail.com", "1", "1", "F", new Date(1999 - 10 - 20), null);
+        Response<User> result = userService.save(user);
+        assertEquals(1, result.getErrors().size());
+    }
+
+    @Test
+    public void saveCorrectUserExistingCountry() {
         User user = new User("GoodUser", "User", "user@gmail.com", "1234", "1234", "M", new Date(1989 - 14 - 31), new Country("Ukraine", "UA"));
         Response<User> result = userService.save(user);
-        System.out.println(userService.findUserByMailIgnoreCase("user@gmail.com").toString());
         assertNotNull(userService.findUserByMailIgnoreCase("user@gmail.com"));
         assertEquals(0, result.getErrors().size());
     }
