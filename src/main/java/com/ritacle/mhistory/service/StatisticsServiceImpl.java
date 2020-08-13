@@ -31,12 +31,15 @@ public class StatisticsServiceImpl implements StatisticsService {
     private String dbURL;
     @Value("${spring.datasource.password}")
     private String dbUserPassword;
+    @Value("${spring.datasource.driver-class-name}")
+    private String driver;
 
     @Autowired
     LastListenRepository lastListenRepository;
 
     @Autowired
     UserRepository userRepository;
+
 
     @Override
     public List<LastListen> getLastUserListens(String userMail, Sort sort) {
@@ -59,7 +62,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         Connection con = null;
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(driver);
             con = DriverManager.getConnection(dbURL + "?sslmode=require", dbUser, dbUserPassword);
         } catch (SQLException | ClassNotFoundException e) {
             logger.error(e.getMessage());
@@ -106,7 +109,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         Connection con = null;
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(driver);
             con = DriverManager.getConnection(dbURL + "?sslmode=require", dbUser, dbUserPassword);
         } catch (SQLException | ClassNotFoundException e) {
             logger.error(e.getMessage());
@@ -153,7 +156,7 @@ public class StatisticsServiceImpl implements StatisticsService {
 
         Connection con = null;
         try {
-            Class.forName("org.postgresql.Driver");
+            Class.forName(driver);
             con = DriverManager.getConnection(dbURL + "?sslmode=require", dbUser, dbUserPassword);
         } catch (SQLException | ClassNotFoundException e) {
             logger.error(e.getMessage());
