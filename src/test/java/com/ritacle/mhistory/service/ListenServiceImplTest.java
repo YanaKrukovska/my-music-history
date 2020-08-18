@@ -1,10 +1,8 @@
 package com.ritacle.mhistory.service;
 
 import com.ritacle.mhistory.persistence.model.*;
-import com.ritacle.mhistory.persistence.repository.ListenRepository;
 import com.ritacle.mhistory.persistence.repository.SongRepository;
 import com.ritacle.mhistory.persistence.repository.UserRepository;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,7 @@ import static org.junit.Assert.*;
 public class ListenServiceImplTest {
 
     @Autowired
-    ListenService service;
+    ListenService listenService;
 
     @Autowired
     UserService userService;
@@ -37,12 +35,13 @@ public class ListenServiceImplTest {
     @Test
     public void addListenExistingSong() {
         Listen listen = new Listen();
-        Song song = new Song("Sweet But Psycho",  new Album("Sweet But Psycho",new Artist("Ava Max")));
+        Song song = new Song("Sweet But Psycho", new Album("Sweet But Psycho", new Artist("Ava Max")));
         listen.setSong(song);
-        listen.setUser(userRepository.getOne(1L));
+        listen.setUser(userRepository.findUserById(1L));
         listen.setListenDate(new Date());
+        listen.setSyncId(8L);
 
-        Listen result = service.addListen(listen);
+        Listen result = listenService.addListen(listen);
         assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
     }
 
@@ -50,12 +49,13 @@ public class ListenServiceImplTest {
     @Test
     public void addListenNotExistingSong() {
         Listen listen = new Listen();
-        Song song = new Song("Skibidi",  new Album( "Antipositive, Pt. 2", new Artist( "Little Big")));
+        Song song = new Song("Skibidi", new Album("Antipositive, Pt. 2", new Artist("Little Big")));
         listen.setSong(song);
-        listen.setUser(userRepository.getOne(2L));
+        listen.setUser(userRepository.findUserById(2L));
         listen.setListenDate(new Date());
+        listen.setSyncId(9L);
 
-        Listen result = service.addListen(listen);
+        Listen result = listenService.addListen(listen);
         assertNotNull(result.getId());
         assertNotNull(result.getSong().getId());
         assertEquals("Skibidi", songRepository.findById(result.getSong().getId()).get().getTitle());
@@ -68,11 +68,11 @@ public class ListenServiceImplTest {
         Listen listen = new Listen();
         Song song = new Song("Sweet But Psycho", new Album("Sweet But Psycho", new Artist("Ava Max")));
         listen.setSong(song);
-        listen.setUser(userService.save( new User("v.krukovskyy@gmail.com")).getObject());
+        listen.setUser(new User("Slava", "Slava", "v.krukovskyy@gmail.com", "", "", "M", new Date(1978 - 11 - 13),  new Country("Ukraine", "UA")));
         listen.setListenDate(new Date());
-        listen.setSyncId(4L);
+        listen.setSyncId(10L);
 
-        Listen result = service.addListen(listen);
+        Listen result = listenService.addListen(listen);
         assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
         assertEquals("v.krukovskyy@gmail.com", result.getUser().getMail());
     }
@@ -81,29 +81,41 @@ public class ListenServiceImplTest {
     @Test
     public void addListenNotExistingUser() {
         Listen listen = new Listen();
-        Song song = new Song("Sweet But Psycho",  new Album("Sweet But Psycho",new Artist("Ava Max")));
+        Song song = new Song("Sweet But Psycho", new Album("Sweet But Psycho", new Artist("Ava Max")));
         listen.setSong(song);
-        listen.setUser(userService.save(  new User("Test", "Test", "test@gmail.com", "", "F", new Date(2019-07-31))).getObject());
+        listen.setUser(new User("Test", "Test", "test@gmail.com", "1234", "1234", "F", new Date(2019 - 07 - 31), new Country("Australia", "AU")));
         listen.setListenDate(new Date());
+        listen.setSyncId(11L);
 
-        Listen result = service.addListen(listen);
+        Listen result = listenService.addListen(listen);
         assertEquals("test@gmail.com", result.getUser().getMail());
     }
 
 
     @Test
     public void checkIfExistsExistingSong() {
-
-
-        assertTrue( service.checkIfExists(2L, 1L));
-
+        assertTrue(listenService.checkIfExists(2L, 1L));
     }
 
 
     @Test
     public void checkIfExistsNotExistingSong() {
-
-        assertFalse( service.checkIfExists(1L, 2L));
-
+        assertFalse(listenService.checkIfExists(1L, 2L));
     }
+
+    @Test
+    public void deleteExistingListen() {
+        Listen listen = new Listen();
+        Song song = new Song("Smile", new Album("Smile", new Artist("Katy Perry")));
+        listen.setSong(song);
+        listen.setUser(userService.save(new User("Slava", "Slava", "v.krukovskyy@gmail.com", "", "", "M", new Date(1978 - 11 - 13),  new Country("Ukraine", "UA"))).getObject());
+        listen.setListenDate(new Date());
+        listen.setSyncId(12L);
+
+        Listen result = listenService.addListen(listen);
+        assertNotNull(listenService.getListen(result.getId()));
+        listenService.deleteById(9L);
+        assertNull(listenService.getListen(9L));
+    }
+
 }

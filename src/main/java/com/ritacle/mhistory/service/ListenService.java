@@ -10,4 +10,6 @@ public interface ListenService {
 
     boolean checkIfExists(Long listenerId, Long syncId);
 
+    void deleteById(Long id);
+
 }

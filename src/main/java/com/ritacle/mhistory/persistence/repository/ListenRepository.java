@@ -6,4 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface ListenRepository  extends JpaRepository<Listen,Long> {
 
     Listen findByUserIdAndSyncId(Long listenerId, Long syncId);
+
+    void deleteById(Long id);
+
+    Listen findListenById(Long id);
 }
