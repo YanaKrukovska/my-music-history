@@ -1,13 +1,14 @@
 package com.ritacle.mhistory.service;
 
-import com.ritacle.mhistory.persistence.model.Listen;
-import com.ritacle.mhistory.persistence.model.Song;
-import com.ritacle.mhistory.persistence.model.User;
+import com.ritacle.mhistory.persistence.model.*;
 import com.ritacle.mhistory.persistence.repository.ListenRepository;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 @Service
 public class ListenServiceImpl implements ListenService {
@@ -22,7 +23,6 @@ public class ListenServiceImpl implements ListenService {
 
     private final UserService userService;
 
-
     @Autowired
     public ListenServiceImpl(ListenRepository repository, SongService songService, ArtistService artistService, AlbumService albumService, UserService userService) {
         this.repository = repository;
@@ -32,11 +32,16 @@ public class ListenServiceImpl implements ListenService {
         this.userService = userService;
     }
 
-
     @Override
-    public Listen addListen(Listen listen) {
-        validateListen(listen);
+    public Response<Listen> addListen(Listen listen) {
 
+        if (listen == null) {
+            return new Response<>(null, new LinkedList<>(Collections.singleton(new InputError("listen", "Listen is required"))));
+        }
+        List<InputError> errors = validateListen(listen);
+        if (!errors.isEmpty()) {
+            return new Response<>(listen, errors);
+        }
         Song song = listen.getSong();
         song.getAlbum().setArtist(artistService.save(listen.getSong().getAlbum().getArtist()));
         song.setAlbum(albumService.save(song.getAlbum()));
@@ -44,21 +49,43 @@ public class ListenServiceImpl implements ListenService {
 
         User userDB = userService.findUserByMailIgnoreCase(listen.getUser().getMail());
         if (userDB == null) {
-            listen.setUser(userService.save(listen.getUser()).getObject());
+            Response<User> savedUser = userService.save(listen.getUser());
+            if (savedUser.getErrors().isEmpty()) {
+                listen.setUser(savedUser.getObject());
+            } else {
+                return new Response<>(listen, savedUser.getErrors());
+            }
         } else {
             listen.setUser(userDB);
         }
 
-        return repository.save(listen);
+        return new Response<>(repository.save(listen), errors);
     }
 
-    private void validateListen(Listen listen) {
-        Objects.requireNonNull(listen, "Listen is required");
-        Objects.requireNonNull(listen.getSong(), "Song is required");
-        Objects.requireNonNull(listen.getSong().getAlbum().getArtist(), "Artist is required");
-        Objects.requireNonNull(listen.getSong().getAlbum().getArtist().getName(), "Artist name is required");
-        Objects.requireNonNull(listen.getSong().getAlbum(), "Album is required");
-        Objects.requireNonNull(listen.getSong().getAlbum().getTitle(), "Album name is required");
+    private List<InputError> validateListen(Listen listen) {
+        List<InputError> errors = new LinkedList<>();
+        if (listen.getSong() == null) {
+            errors.add(new InputError("song", "Song is required"));
+        }
+        if (StringUtils.isAllBlank(listen.getSong().getTitle())) {
+            errors.add(new InputError("songTitle", "Song title is required"));
+        }
+        if (listen.getSong().getAlbum().getArtist() == null) {
+            errors.add(new InputError("artist", "Artist is required"));
+        }
+        if (listen.getSong().getAlbum().getArtist() == null) {
+            errors.add(new InputError("artist", "Artist is required"));
+        }
+        if (StringUtils.isAllBlank(listen.getSong().getAlbum().getArtist().getName())) {
+            errors.add(new InputError("artistName", "Artist name is required"));
+        }
+        if (listen.getSong().getAlbum() == null) {
+            errors.add(new InputError("album", "Album is required"));
+        }
+        if (StringUtils.isAllBlank(listen.getSong().getAlbum().getTitle())) {
+            errors.add(new InputError("albumTitle", "Album title is required"));
+        }
+        return errors;
     }
 
     @Override
@@ -72,9 +99,13 @@ public class ListenServiceImpl implements ListenService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        if (repository.findListenById(id) != null) {
+    public Response<Listen> deleteById(Long id) {
+        Listen listenDB = repository.findListenById(id);
+        if (listenDB != null) {
             repository.deleteById(id);
+            return new Response<>(listenDB, new LinkedList<>());
+        } else {
+            return new Response<>(null, new LinkedList<>(Collections.singleton(new InputError("listen", "Listen doesn't exist"))));
         }
     }
 }

@@ -41,7 +41,7 @@ public class ListenServiceImplTest {
         listen.setListenDate(new Date());
         listen.setSyncId(8L);
 
-        Listen result = listenService.addListen(listen);
+        Listen result = listenService.addListen(listen).getObject();
         assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
     }
 
@@ -55,7 +55,7 @@ public class ListenServiceImplTest {
         listen.setListenDate(new Date());
         listen.setSyncId(9L);
 
-        Listen result = listenService.addListen(listen);
+        Listen result = listenService.addListen(listen).getObject();
         assertNotNull(result.getId());
         assertNotNull(result.getSong().getId());
         assertEquals("Skibidi", songRepository.findById(result.getSong().getId()).get().getTitle());
@@ -72,7 +72,7 @@ public class ListenServiceImplTest {
         listen.setListenDate(new Date());
         listen.setSyncId(10L);
 
-        Listen result = listenService.addListen(listen);
+        Listen result = listenService.addListen(listen).getObject();
         assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
         assertEquals("v.krukovskyy@gmail.com", result.getUser().getMail());
     }
@@ -87,7 +87,7 @@ public class ListenServiceImplTest {
         listen.setListenDate(new Date());
         listen.setSyncId(11L);
 
-        Listen result = listenService.addListen(listen);
+        Listen result = listenService.addListen(listen).getObject();
         assertEquals("test@gmail.com", result.getUser().getMail());
     }
 
@@ -112,10 +112,18 @@ public class ListenServiceImplTest {
         listen.setListenDate(new Date());
         listen.setSyncId(12L);
 
-        Listen result = listenService.addListen(listen);
+        Listen result = listenService.addListen(listen).getObject();
         assertNotNull(listenService.getListen(result.getId()));
-        listenService.deleteById(9L);
+        Response<Listen> deletedListen = listenService.deleteById(9L);
         assertNull(listenService.getListen(9L));
+        assertTrue(deletedListen.isOkay());
+    }
+
+    @Test
+    public void deleteNotExistingListen() {
+        Response<Listen> deletedListen = listenService.deleteById(999L);
+        assertFalse(deletedListen.isOkay());
+        assertNull(deletedListen.getObject());
     }
 
 }

@@ -1,15 +1,16 @@
 package com.ritacle.mhistory.service;
 
 import com.ritacle.mhistory.persistence.model.Listen;
+import com.ritacle.mhistory.persistence.model.Response;
 
 public interface ListenService {
 
-    Listen addListen(Listen listen);
+    Response<Listen> addListen(Listen listen);
 
     Listen getListen(Long id);
 
     boolean checkIfExists(Long listenerId, Long syncId);
 
-    void deleteById(Long id);
+    Response<Listen> deleteById(Long id);
 
 }
