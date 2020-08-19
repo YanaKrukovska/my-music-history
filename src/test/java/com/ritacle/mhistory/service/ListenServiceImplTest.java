@@ -31,6 +31,46 @@ public class ListenServiceImplTest {
     @Autowired
     SongRepository songRepository;
 
+    @Test
+    public void addNullListen() {
+        Response<Listen> result = listenService.addListen(null);
+        assertEquals(1, result.getErrors().size());
+    }
+
+    @Test
+    public void addListenWithNullSong() {
+        Listen listen = new Listen();
+        listen.setSong(null);
+        Response<Listen> result = listenService.addListen(listen);
+        assertEquals(1, result.getErrors().size());
+    }
+
+    @Test
+    public void addListenWithNullArtist() {
+        Listen listen = new Listen();
+        Song song = new Song("Somebody Told Me", new Album("Hot Fuss", null));
+        listen.setSong(song);
+        Response<Listen> result = listenService.addListen(listen);
+        assertEquals(1, result.getErrors().size());
+    }
+
+    @Test
+    public void addListenWithNullAlbum() {
+        Listen listen = new Listen();
+        Song song = new Song("Wonderful Wonderful", null);
+        listen.setSong(song);
+        Response<Listen> result = listenService.addListen(listen);
+        assertEquals(1, result.getErrors().size());
+    }
+
+    @Test
+    public void addListenWithBlankParameters() {
+        Listen listen = new Listen();
+        Song song = new Song("        ", new Album(null, new Artist("")));
+        listen.setSong(song);
+        Response<Listen> result = listenService.addListen(listen);
+        assertEquals(3, result.getErrors().size());
+    }
 
     @Test
     public void addListenExistingSong() {

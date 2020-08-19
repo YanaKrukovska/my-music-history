@@ -38,10 +38,17 @@ public class ListenServiceImpl implements ListenService {
         if (listen == null) {
             return new Response<>(null, new LinkedList<>(Collections.singleton(new InputError("listen", "Listen is required"))));
         }
+
+        Response<Listen> nullCheckResponse = checkNullParameters(listen);
+        if (!nullCheckResponse.getErrors().isEmpty()) {
+            return new Response<>(listen, nullCheckResponse.getErrors());
+        }
+
         List<InputError> errors = validateListen(listen);
         if (!errors.isEmpty()) {
             return new Response<>(listen, errors);
         }
+
         Song song = listen.getSong();
         song.getAlbum().setArtist(artistService.save(listen.getSong().getAlbum().getArtist()));
         song.setAlbum(albumService.save(song.getAlbum()));
@@ -62,25 +69,26 @@ public class ListenServiceImpl implements ListenService {
         return new Response<>(repository.save(listen), errors);
     }
 
+    private Response<Listen> checkNullParameters(Listen listen) {
+        if (listen.getSong() == null) {
+            return new Response<>(listen, new LinkedList<>(Collections.singleton(new InputError("song", "Song is required"))));
+        }
+        if (listen.getSong().getAlbum() == null) {
+            return new Response<>(listen, new LinkedList<>(Collections.singleton(new InputError("album", "Album is required"))));
+        }
+        if (listen.getSong().getAlbum() != null && listen.getSong().getAlbum().getArtist() == null) {
+            return new Response<>(listen, new LinkedList<>(Collections.singleton(new InputError("artist", "Artist is required"))));
+        }
+        return new Response<>(listen, new LinkedList<>());
+    }
+
     private List<InputError> validateListen(Listen listen) {
         List<InputError> errors = new LinkedList<>();
-        if (listen.getSong() == null) {
-            errors.add(new InputError("song", "Song is required"));
-        }
         if (StringUtils.isAllBlank(listen.getSong().getTitle())) {
             errors.add(new InputError("songTitle", "Song title is required"));
         }
-        if (listen.getSong().getAlbum().getArtist() == null) {
-            errors.add(new InputError("artist", "Artist is required"));
-        }
-        if (listen.getSong().getAlbum().getArtist() == null) {
-            errors.add(new InputError("artist", "Artist is required"));
-        }
         if (StringUtils.isAllBlank(listen.getSong().getAlbum().getArtist().getName())) {
             errors.add(new InputError("artistName", "Artist name is required"));
-        }
-        if (listen.getSong().getAlbum() == null) {
-            errors.add(new InputError("album", "Album is required"));
         }
         if (StringUtils.isAllBlank(listen.getSong().getAlbum().getTitle())) {
             errors.add(new InputError("albumTitle", "Album title is required"));
