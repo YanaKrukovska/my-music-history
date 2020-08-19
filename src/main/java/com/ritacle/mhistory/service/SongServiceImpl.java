@@ -18,7 +18,7 @@ public class SongServiceImpl implements SongService {
     @Override
     public Song save(Song song) {
 
-        song.setAlbum(albumService.save(song.getAlbum()));
+        song.setAlbum(albumService.save(song.getAlbum()).getObject());
         Song persistedSong = getSong(song);
 
         if (persistedSong == null) {

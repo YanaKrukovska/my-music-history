@@ -2,7 +2,6 @@ package com.ritacle.mhistory.service;
 
 import com.ritacle.mhistory.persistence.model.Album;
 import com.ritacle.mhistory.persistence.model.Artist;
-import com.ritacle.mhistory.persistence.repository.AlbumRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application-integration-test.properties")
@@ -24,7 +22,7 @@ public class AlbumServiceImplTest {
     @Test
     public void save() {
         Album album = new Album("Solo", new Artist("Anitta"));
-        Album savedAlbum = service.save(album);
+        Album savedAlbum = service.save(album).getObject();
         Assert.assertNotNull(savedAlbum.getId());
     }
 }

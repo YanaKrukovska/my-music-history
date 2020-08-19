@@ -50,8 +50,21 @@ public class ListenServiceImpl implements ListenService {
         }
 
         Song song = listen.getSong();
-        song.getAlbum().setArtist(artistService.save(listen.getSong().getAlbum().getArtist()));
-        song.setAlbum(albumService.save(song.getAlbum()));
+
+        Response<Artist> savedArtist = artistService.save(listen.getSong().getAlbum().getArtist());
+        if (savedArtist.getErrors().isEmpty()) {
+            song.getAlbum().setArtist(savedArtist.getObject());
+        } else {
+            return new Response<>(listen, savedArtist.getErrors());
+        }
+
+        Response<Album> savedAlbum = albumService.save(song.getAlbum());
+        if (savedAlbum.getErrors().isEmpty()) {
+            song.setAlbum(savedAlbum.getObject());
+        } else {
+            return new Response<>(listen, savedAlbum.getErrors());
+        }
+
         listen.setSong(songService.save(song));
 
         User userDB = userService.findUserByMailIgnoreCase(listen.getUser().getMail());
