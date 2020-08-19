@@ -40,14 +40,13 @@ public class ArtistServiceImpl implements ArtistService {
             persistedArtist = repository.save(artist);
         }
 
-
         return new Response<>(persistedArtist, errors);
     }
 
     private List<InputError> validateArtist(Artist artist) {
         List<InputError> errors = new LinkedList<>();
         if (StringUtils.isAllBlank(artist.getName())) {
-            errors.add(new InputError("songTitle", "Song title is required"));
+            errors.add(new InputError("artistName", "Artist name is required"));
         }
         return errors;
     }

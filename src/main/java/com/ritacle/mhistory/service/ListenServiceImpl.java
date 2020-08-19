@@ -51,21 +51,27 @@ public class ListenServiceImpl implements ListenService {
 
         Song song = listen.getSong();
 
-        Response<Artist> savedArtist = artistService.save(listen.getSong().getAlbum().getArtist());
-        if (savedArtist.getErrors().isEmpty()) {
-            song.getAlbum().setArtist(savedArtist.getObject());
+        Response<Artist> artistResponse = artistService.save(listen.getSong().getAlbum().getArtist());
+        if (artistResponse.getErrors().isEmpty()) {
+            song.getAlbum().setArtist(artistResponse.getObject());
         } else {
-            return new Response<>(listen, savedArtist.getErrors());
+            return new Response<>(listen, artistResponse.getErrors());
         }
 
-        Response<Album> savedAlbum = albumService.save(song.getAlbum());
-        if (savedAlbum.getErrors().isEmpty()) {
-            song.setAlbum(savedAlbum.getObject());
+        Response<Album> albumResponse = albumService.save(song.getAlbum());
+        if (albumResponse.getErrors().isEmpty()) {
+            song.setAlbum(albumResponse.getObject());
         } else {
-            return new Response<>(listen, savedAlbum.getErrors());
+            return new Response<>(listen, albumResponse.getErrors());
         }
 
-        listen.setSong(songService.save(song));
+        Response<Song> songResponse = songService.save(song);
+        if (songResponse.getErrors().isEmpty()) {
+            listen.setSong(songResponse.getObject());
+        } else {
+            return new Response<>(listen, songResponse.getErrors());
+        }
+
 
         User userDB = userService.findUserByMailIgnoreCase(listen.getUser().getMail());
         if (userDB == null) {

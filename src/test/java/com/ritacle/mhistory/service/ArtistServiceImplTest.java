@@ -31,11 +31,17 @@ public class ArtistServiceImplTest {
     }
 
     @Test
-    public void save() {
+    public void saveNewArtist() {
         Artist artist = new Artist("Justin Bieber");
         Artist savedArtist = service.save(artist).getObject();
         Assert.assertNotNull(savedArtist.getId());
     }
 
-
+    @Test
+    public void saveExistingArtist() {
+        Artist artist = new Artist("Ava Max");
+        Response<Artist> savedArtist = service.save(artist);
+        Assert.assertEquals(Long.valueOf(1), savedArtist.getObject().getId());
+        Assert.assertEquals(0, savedArtist.getErrors().size());
+    }
 }
