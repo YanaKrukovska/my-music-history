@@ -39,5 +39,10 @@ public class ListenRestService {
         return service.checkIfExists(listenerId, syncId);
     }
 
+    @DeleteMapping("/delete/{listenId}")
+    public Response<Listen> deleteListen(@PathVariable Long listenId){
+        logger.debug("Listen DELETE listenId = {}", listenId);
+        return service.deleteById(listenId);
+    }
 
 }
