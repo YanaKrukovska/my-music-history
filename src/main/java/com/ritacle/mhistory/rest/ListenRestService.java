@@ -45,4 +45,11 @@ public class ListenRestService {
         return service.deleteById(listenId);
     }
 
+    @PostMapping("/edit")
+    @ResponseBody
+    public Response<Listen> editListen(@RequestBody Listen listen){
+        logger.debug("Listen EDIT listen = {}", listen.toString());
+        return service.editListen(listen);
+    }
+
 }

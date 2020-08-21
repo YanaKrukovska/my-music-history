@@ -166,4 +166,20 @@ public class ListenServiceImplTest {
         assertNull(deletedListen.getObject());
     }
 
+    @Test
+    public void editListen() {
+
+        Listen listen = new Listen();
+        Song song = new Song("Sweet But Psycho", new Album("Heaven & Hell", new Artist("Ava Max")));
+        listen.setSong(song);
+
+        String dbListen =  listenService.getListen(1L).getSong().getAlbum().getTitle();
+        assertEquals("Sweet But Psycho", dbListen);
+        Response<Listen> editedListen = listenService.editListen(listen);
+        assertTrue(editedListen.isOkay());
+
+         dbListen =  listenService.getListen(1L).getSong().getAlbum().getTitle();
+        assertEquals("Heaven & Hell", dbListen);
+    }
+
 }

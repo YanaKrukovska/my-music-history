@@ -13,4 +13,6 @@ public interface ListenService {
 
     Response<Listen> deleteById(Long id);
 
+    Response<Listen> editListen(Listen listen);
+
 }

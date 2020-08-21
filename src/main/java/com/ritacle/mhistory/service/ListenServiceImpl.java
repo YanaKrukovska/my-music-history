@@ -35,10 +35,6 @@ public class ListenServiceImpl implements ListenService {
     @Override
     public Response<Listen> addListen(Listen listen) {
 
-        if (listen == null) {
-            return new Response<>(null, new LinkedList<>(Collections.singleton(new InputError("listen", "Listen is required"))));
-        }
-
         Response<Listen> nullCheckResponse = checkNullParameters(listen);
         if (!nullCheckResponse.getErrors().isEmpty()) {
             return new Response<>(listen, nullCheckResponse.getErrors());
@@ -89,6 +85,9 @@ public class ListenServiceImpl implements ListenService {
     }
 
     private Response<Listen> checkNullParameters(Listen listen) {
+        if (listen == null) {
+            return new Response<>(null, new LinkedList<>(Collections.singleton(new InputError("listen", "Listen is required"))));
+        }
         if (listen.getSong() == null) {
             return new Response<>(listen, new LinkedList<>(Collections.singleton(new InputError("song", "Song is required"))));
         }
@@ -134,5 +133,28 @@ public class ListenServiceImpl implements ListenService {
         } else {
             return new Response<>(null, new LinkedList<>(Collections.singleton(new InputError("listen", "Listen doesn't exist"))));
         }
+    }
+
+    @Override
+    public Response<Listen> editListen(Listen listen) {
+
+        Response<Listen> nullCheckResponse = checkNullParameters(listen);
+        if (!nullCheckResponse.getErrors().isEmpty()) {
+            return new Response<>(listen, nullCheckResponse.getErrors());
+        }
+
+        List<InputError> errors = validateListen(listen);
+        if (!errors.isEmpty()) {
+            return new Response<>(listen, errors);
+        }
+
+        Listen listenDB = getListen(listen.getId());
+        if (listenDB == null) {
+            return new Response<>(listen, new LinkedList<>(Collections.singleton(new InputError("id", "Listen with such id doesn't exist"))));
+        }
+
+        listenDB.setSong(songService.save(listen.getSong()).getObject());
+
+        return null;
     }
 }
