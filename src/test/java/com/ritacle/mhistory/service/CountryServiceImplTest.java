@@ -40,9 +40,9 @@ public class CountryServiceImplTest {
 
     @Test
     public void addNewCountry() {
-        Country country = new Country("Ukraine", "UA");
+        Country country = new Country("USA", "US");
         Response<Country> result = countryService.save(country);
-        assertEquals("Ukraine", countryService.findCountryByCountryCodeIgnoreCase(country.getCountryCode()).getFullName());
+        assertEquals("USA", countryService.findCountryByCountryCodeIgnoreCase(country.getCountryCode()).getFullName());
         assertEquals(0, result.getErrors().size());
     }
 

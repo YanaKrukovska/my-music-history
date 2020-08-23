@@ -76,7 +76,6 @@ public class UserServiceImpl implements UserService {
         return new Response<>(userRepository.save(user), errors);
     }
 
-    @Override
     public List<InputError> validateUser(User user) {
         List<InputError> errors = new LinkedList<>();
         if (StringUtils.isAllBlank(user.getUserName())) {
