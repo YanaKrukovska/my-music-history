@@ -20,8 +20,7 @@ public class Song {
     @Column(nullable = false)
     private String title;
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "album_id", foreignKey = @ForeignKey(name = "ALBUM_ID_FK"))
     private Album album;
 
@@ -45,8 +44,6 @@ public class Song {
         return title;
     }
 
-
-
     public Album getAlbum() {
         return album;
     }
@@ -58,7 +55,6 @@ public class Song {
     public void setTitle(String title) {
         this.title = title;
     }
-
 
     @Override
     public String toString() {

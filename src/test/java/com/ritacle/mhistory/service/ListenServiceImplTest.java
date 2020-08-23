@@ -85,7 +85,6 @@ public class ListenServiceImplTest {
         assertEquals("Sweet But Psycho", songRepository.findById(result.getSong().getId()).get().getTitle());
     }
 
-
     @Test
     public void addListenNotExistingSong() {
         Listen listen = new Listen();
@@ -99,16 +98,14 @@ public class ListenServiceImplTest {
         assertNotNull(result.getId());
         assertNotNull(result.getSong().getId());
         assertEquals("Skibidi", songRepository.findById(result.getSong().getId()).get().getTitle());
-
     }
-
 
     @Test
     public void addListenExistingUser() {
         Listen listen = new Listen();
         Song song = new Song("Sweet But Psycho", new Album("Sweet But Psycho", new Artist("Ava Max")));
         listen.setSong(song);
-        listen.setUser(new User("Slava", "Slava", "v.krukovskyy@gmail.com", "", "", "M", new Date(1978 - 11 - 13),  new Country("Ukraine", "UA")));
+        listen.setUser(new User("Slava", "Slava", "v.krukovskyy@gmail.com", "", "", "M", new Date(1978 - 11 - 13), new Country("Ukraine", "UA")));
         listen.setListenDate(new Date());
         listen.setSyncId(10L);
 
@@ -148,7 +145,7 @@ public class ListenServiceImplTest {
         Listen listen = new Listen();
         Song song = new Song("Smile", new Album("Smile", new Artist("Katy Perry")));
         listen.setSong(song);
-        listen.setUser(userService.save(new User("Slava", "Slava", "v.krukovskyy@gmail.com", "", "", "M", new Date(1978 - 11 - 13),  new Country("Ukraine", "UA"))).getObject());
+        listen.setUser(userService.save(new User("Slava", "Slava", "v.krukovskyy@gmail.com", "", "", "M", new Date(1978 - 11 - 13), new Country("Ukraine", "UA"))).getObject());
         listen.setListenDate(new Date());
         listen.setSyncId(12L);
 
@@ -167,19 +164,100 @@ public class ListenServiceImplTest {
     }
 
     @Test
-    public void editListen() {
+    public void editSongCorrectListen() {
+        Listen listen = new Listen();
+        Song song = new Song("So Am I (Acoustic)", new Album("So Am I", new Artist("Ava Max")));
+        listen.setSong(song);
+        listen.setId(3L);
 
+        String dbListen = listenService.getListen(3L).getSong().getTitle();
+        assertEquals("So Am I", dbListen);
+        Response<Listen> editedListen = listenService.editListen(listen);
+        assertTrue(editedListen.isOkay());
+
+        dbListen = listenService.getListen(3L).getSong().getTitle();
+        assertEquals("So Am I (Acoustic)", dbListen);
+    }
+
+    @Test
+    public void editAlbumCorrectListen() {
         Listen listen = new Listen();
         Song song = new Song("Sweet But Psycho", new Album("Heaven & Hell", new Artist("Ava Max")));
         listen.setSong(song);
+        listen.setId(1L);
 
-        String dbListen =  listenService.getListen(1L).getSong().getAlbum().getTitle();
+        String dbListen = listenService.getListen(1L).getSong().getAlbum().getTitle();
         assertEquals("Sweet But Psycho", dbListen);
         Response<Listen> editedListen = listenService.editListen(listen);
         assertTrue(editedListen.isOkay());
 
-         dbListen =  listenService.getListen(1L).getSong().getAlbum().getTitle();
+        dbListen = listenService.getListen(1L).getSong().getAlbum().getTitle();
         assertEquals("Heaven & Hell", dbListen);
     }
 
+    @Test
+    public void editArtistCorrectListen() {
+        Listen listen = new Listen();
+        Song song = new Song("I Know", new Album("Long Way Down", new Artist("Post Malone")));
+        listen.setSong(song);
+        listen.setId(7L);
+
+        String dbListen = listenService.getListen(7L).getSong().getAlbum().getArtist().getName();
+        assertEquals("Tom Odell", dbListen);
+        Response<Listen> editedListen = listenService.editListen(listen);
+        assertTrue(editedListen.isOkay());
+
+        dbListen = listenService.getListen(7L).getSong().getAlbum().getArtist().getName();
+        assertEquals("Post Malone", dbListen);
+    }
+
+    @Test
+    public void editNullListen() {
+        Response<Listen> updatedListen = listenService.editListen(null);
+        assertEquals(1, updatedListen.getErrors().size());
+    }
+
+    @Test
+    public void editListenNoSong() {
+        Listen listen = new Listen();
+        listen.setSong(null);
+        Response<Listen> updatedListen = listenService.editListen(listen);
+        assertEquals(1, updatedListen.getErrors().size());
+    }
+
+    @Test
+    public void editListenNoAlbum() {
+        Listen listen = new Listen();
+        listen.setSong( new Song("Sweet But Psycho", null));
+        Response<Listen> updatedListen = listenService.editListen(listen);
+        assertEquals(1, updatedListen.getErrors().size());
+    }
+
+    @Test
+    public void editListenNoArtist() {
+        Listen listen = new Listen();
+        listen.setSong( new Song("Sweet But Psycho",  new Album("Heaven & Hell", null)));
+        Response<Listen> updatedListen = listenService.editListen(listen);
+        assertEquals(1, updatedListen.getErrors().size());
+    }
+
+    @Test
+    public void editListenIncorrectTitles() {
+        Listen listen = new Listen();
+        listen.setSong( new Song("     ",  new Album("", new Artist(null))));
+        listen.setId(1L);
+        Response<Listen> updatedListen = listenService.editListen(listen);
+        assertEquals(3, updatedListen.getErrors().size());
+    }
+
+    @Test
+    public void editNotExistingListen() {
+        Listen listen = new Listen();
+        Song song = new Song("Sweet But Psycho", new Album("Heaven & Hell", new Artist("Ava Max")));
+        listen.setSong(song);
+        listen.setId(700L);
+
+        Response<Listen> updatedListen = listenService.editListen(listen);
+        assertEquals(1, updatedListen.getErrors().size());
+    }
 }

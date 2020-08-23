@@ -154,7 +154,7 @@ public class ListenServiceImpl implements ListenService {
         }
 
         listenDB.setSong(songService.save(listen.getSong()).getObject());
-
-        return null;
+        Response<Listen> updatedListen = addListen(listenDB);
+        return new Response<>(updatedListen.getObject(), updatedListen.getErrors());
     }
 }
